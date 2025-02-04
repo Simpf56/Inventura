@@ -1,14 +1,17 @@
-﻿﻿use master;
-go
+﻿
+--db_a98acf_wp6 od profesora
 
-drop database if exists Inventura;
-go
-
-create database Inventorija collate Croatian_CI_AS;;
-go
-
-use Inventorija;
-go
+SELECT name, collation_name FROM sys.databases;
+GO
+ALTER DATABASE db_ab2676_inventorija  SET SINGLE_USER WITH
+ROLLBACK IMMEDIATE;
+GO
+ALTER DATABASE db_ab2676_inventorija  COLLATE Croatian_CI_AS;
+GO
+ALTER DATABASE db_ab2676_inventorija  SET MULTI_USER;
+GO
+SELECT name, collation_name FROM sys.databases;
+GO
 
 create table Nabavljaci(
 	sifra int not null primary key identity (1,1),

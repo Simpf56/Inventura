@@ -18,6 +18,13 @@ builder.Services.AddDbContext<InventorijaContext> (options => { options.UseSqlSe
 //        builder.Configuration.GetConnectionString("InventorijaContext"),
 //        sqlOptions => sqlOptions.EnableRetryOnFailure())
 //);
+builder.Services.AddCors(o => {
+
+    o.AddPolicy("CorsPolicy", builder =>
+    {
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -38,6 +45,7 @@ app.UseSwaggerUI(o =>
 });
 
 app.MapControllers();
+app.UseCors("CorsPolicy");
 
 app.Run();
 
