@@ -1,3 +1,4 @@
+using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,15 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<InventorijaContext> (options => { options.UseSqlServer(builder.Configuration.GetConnectionString("InventorijaContext")); 
+});
+
+//builder.Services.AddDbContext<InventorijaContext>(options =>
+//    options.UseSqlServer(
+//        builder.Configuration.GetConnectionString("InventorijaContext"),
+//        sqlOptions => sqlOptions.EnableRetryOnFailure())
+//);
 
 var app = builder.Build();
 
@@ -30,3 +40,4 @@ app.UseSwaggerUI(o =>
 app.MapControllers();
 
 app.Run();
+
