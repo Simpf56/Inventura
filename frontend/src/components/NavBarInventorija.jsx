@@ -1,0 +1,36 @@
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useNavigate } from 'react-router-dom';
+import { RouteNames } from '../constants';
+
+
+export default function NavBarInventorija(){
+
+    const navigate = useNavigate() 
+
+    return(
+        <>
+        <Navbar expand="lg" className="bg-body-tertiary">
+            <Container>
+                <Navbar.Brand href="#home">Inventorija</Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="me-auto">
+                    <NavDropdown title="Programi" id="basic-nav-dropdown">
+                    <NavDropdown.Item href="#action/3.1">Nabavljaci</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">Proizvodi</NavDropdown.Item>
+                    <NavDropdown.Item 
+                        onClick={()=>navigate(RouteNames.KUPCI_PREGLED)}                    
+                    >Kupci</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.4">Narudžbe</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.5" >Stavke Narudžbe</NavDropdown.Item>
+                    </NavDropdown>
+                </Nav>
+                </Navbar.Collapse>
+        </Container>
+    </Navbar>
+        </>
+    )
+}
