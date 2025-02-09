@@ -2,16 +2,16 @@
 using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Inventorija.Controllers
+namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class InventorijaController : ControllerBase
+    public class KupacController : ControllerBase
     {
 
         private readonly InventorijaContext _context;
 
-        public InventorijaController(InventorijaContext context)
+        public KupacController(InventorijaContext context)
         {
             _context = context;
         }
