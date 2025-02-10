@@ -14,7 +14,9 @@ export default function NavBarInventorija(){
         <>
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
-                <Navbar.Brand href="#home">Inventorija</Navbar.Brand>
+                <Navbar.Brand   className='ruka'
+                                onClick={()=>navigate(RouteNames.HOME)}
+                                >Inventorija</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
