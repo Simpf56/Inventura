@@ -29,6 +29,7 @@ export default function NavBarInventorija(){
                     <NavDropdown.Item href="#action/3.4">Narudžbe</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.5" >Stavke Narudžbe</NavDropdown.Item>
                     </NavDropdown>
+                    <Nav.Link href='https://peki123-001-site1.ntempurl.com/swagger/' target='_blank'>Swagger</Nav.Link>
                 </Nav>
                 </Navbar.Collapse>
         </Container>

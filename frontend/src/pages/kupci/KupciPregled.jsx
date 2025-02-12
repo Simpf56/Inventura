@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react"
 import KupacService from "../../services/KupacService"
 import { Table } from "react-bootstrap";
+import moment from "moment";
+import { Link } from "react-router-dom";
+import { RouteNames } from "../../constants";
 
 
 
@@ -18,8 +21,25 @@ export default function KupciPregled(){
     },[])
 
 
+function formatirajDatum(datum){
+    if(datum==null){
+        return 'Nije definirano'
+    }
+    return moment.utc(datum).format('DD.MM.YYYY')
+}
+
+function vaucer(v){
+    if(v = null) return'gray'
+    if(v) return 'green'
+    else return 'red'
+}
+
     return(
         <>
+        <Link
+        to={RouteNames.KUPCI_NOVI}
+        className="btn btn-success siroko"
+        >Dodaj novog kupca</Link>
         <Table striped bordered hover responsive>
             <thead>
                 <tr>
@@ -46,7 +66,7 @@ export default function KupciPregled(){
                             {kupac.adresa}
                         </td>
                         <td>
-                            {kupac.datum_rod}
+                            {formatirajDatum(kupac.datum_rod)}
                         </td>
                     </tr>
                 ))}
