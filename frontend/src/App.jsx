@@ -7,6 +7,7 @@ import Pocetna from './pages/Pocetna'
 import { RouteNames } from './constants'
 import KupciPregled from './pages/kupci/KupciPregled'
 import KupciDodaj from './pages/kupci/KupciDodaj'
+import KupciPromjena from './pages/kupci/KupciPromjena'
 
 function App() {
   
@@ -20,6 +21,7 @@ function App() {
           <Route path={RouteNames.HOME} element = {<Pocetna />} />
           <Route path={RouteNames.KUPCI_PREGLED} element = {<KupciPregled/>} />
           <Route path={RouteNames.KUPCI_NOVI} element = {<KupciDodaj/>} />
+          <Route path={RouteNames.KUPCI_PROMJENA} element = {<KupciPromjena/>} />
         </Routes>
 
         <hr/>

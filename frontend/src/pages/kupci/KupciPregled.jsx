@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react"
 import KupacService from "../../services/KupacService"
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import moment from "moment";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
+import { GrValidate } from "react-icons/gr";
 
 
 
 export default function KupciPregled(){
 
-    const[kupci,setKupci]= useState();
+    const[kupci,setKupci]= useState([]);
+    const navigate = useNavigate();
 
     async function dohvatiKupce(){
         const odgovor = await KupacService.get()
@@ -28,11 +30,11 @@ function formatirajDatum(datum){
     return moment.utc(datum).format('DD.MM.YYYY')
 }
 
-function vaucer(v){
-    if(v = null) return'gray'
-    if(v) return 'green'
-    else return 'red'
-}
+// function vaucer(v){
+//     if(v = null) return'gray'
+//     if(v) return 'green'
+//     else return 'red'
+// }
 
     return(
         <>
@@ -48,6 +50,7 @@ function vaucer(v){
                     <th>Br telefona</th>
                     <th>Adresa</th>
                     <th>Datum rođenja</th>
+                    <th>Akcija</th>
                 </tr>
             </thead>
             <tbody>
@@ -67,6 +70,11 @@ function vaucer(v){
                         </td>
                         <td>
                             {formatirajDatum(kupac.datum_rod)}
+                        </td>
+                        <td>
+                            <Button
+                            onClick={()=>navigate(`/kupci/${kupac.sifra}`)}
+                            >Promjena</Button>
                         </td>
                     </tr>
                 ))}
