@@ -10,6 +10,13 @@ async function get(){
     .catch((e)=>{})
 }
 
+async function dodaj(kupac){
+    return HttpService.post('/Kupac',kupac)
+    .then(()=>{return{greska: false, poruka: 'Dodano'}})
+    .catch(()=>{return{greska:true,poruka: 'Problem kod dodavanja'}})
+}
+
 export default{
-    get
+    get,
+    dodaj
 }
