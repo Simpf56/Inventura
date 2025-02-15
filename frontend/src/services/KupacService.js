@@ -24,8 +24,15 @@ async function dodaj(kupac){
     .catch(()=>{return{greska:true,poruka: 'Problem kod dodavanja'}})
 }
 
+async function promijeni(sifra,kupac){
+    return HttpService.put('/Kupac/'+sifra, kupac)
+    .then(()=>{return{greska:false, poruka: 'Dodano'}})
+    .catch(()=>{return{greska:true, poruka:'Problem kod dodavanja'}})
+}
+
 export default{
     get,
     getBySifra,
+    promijeni,
     dodaj
 }

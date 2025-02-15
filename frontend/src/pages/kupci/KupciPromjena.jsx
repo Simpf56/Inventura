@@ -21,8 +21,8 @@ export default function KupciPromjena(){
         dohvatiKupac();
     },[]
 )
-async function dodaj(kupac){
-    const odgovor = KupacService.dodaj(kupci)
+async function promijeni(kupac){
+    const odgovor = await KupacService.promijeni(routeParams.sifra,kupac)
     if (odgovor.greska){
         alert(odgovor.poruka)
         return
@@ -35,7 +35,7 @@ async function dodaj(kupac){
 
         let podaci = new FormData(e.target);
 
-        promjena(
+        promijeni(
             {
             ime: podaci.get('ime'),
             prezime: podaci.get('prezime'),
@@ -48,7 +48,7 @@ async function dodaj(kupac){
 
     return(
         <>
-        Dodavanje kupaca
+        Promjena kupaca
         <Form onSubmit={odradiSubmit}>
             <Form.Group controlId="ime">
                 <Form.Label>Ime</Form.Label>
