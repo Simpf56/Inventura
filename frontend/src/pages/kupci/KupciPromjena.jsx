@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 export default function KupciPromjena(){
 
     const navigate = useNavigate();
-    const [kupac,setKupci] = useState();
+    const [kupac,setKupci] = useState({});
     const routeParams= useParams();
 
     async function dohvatiKupac(){

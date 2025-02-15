@@ -10,7 +10,7 @@ async function get(){
     .catch((e)=>{})
 }
 
-async function getBySifra(){
+async function getBySifra(sifra){
     return await HttpService.get('/Kupac/' + sifra)    
     .then((odgovor)=>{
         return odgovor.data;
