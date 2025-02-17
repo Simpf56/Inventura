@@ -8,12 +8,12 @@ import { useEffect, useState } from "react";
 export default function KupciPromjena(){
 
     const navigate = useNavigate();
-    const [kupac,setKupci] = useState({});
+    const [kupac,setKupac] = useState({});
     const routeParams= useParams();
 
     async function dohvatiKupac(){
         const odgovor = await KupacService.getBySifra(routeParams.sifra)
-        setKupci(odgovor)
+        setKupac(odgovor)
 
     }
     
@@ -85,7 +85,7 @@ async function promijeni(kupac){
                 </Col>
                 <Col xs={6} sm={12} med={9} lg={6} xl={6} xxl={6}>
                     <Button variant="success" type="submit" className="siroko">
-                        Dodaj kupca</Button>
+                        Promjeni kupca</Button>
                 </Col>
             </Row>
         </Form>

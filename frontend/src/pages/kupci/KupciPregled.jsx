@@ -36,6 +36,22 @@ function formatirajDatum(datum){
 //     else return 'red'
 // }
 
+function obrisi(sifra){
+    if(!confirm('Sigurno obrisati')){
+        return;
+    }
+    brisanjeKupca(sifra)
+}
+
+async function brisanjeKupca(sifra){
+    const odgovor = await KupacService.obrisi(sifra);
+    if((await odgovor).greska){
+        alert(odgovor.poruka);
+        return;
+    }
+    dohvatiKupce();
+}
+
     return(
         <>
         <Link
@@ -75,6 +91,11 @@ function formatirajDatum(datum){
                             <Button
                             onClick={()=>navigate(`/kupci/${kupac.sifra}`)}
                             >Promjena</Button>
+                            &nbsp;&nbsp;&nbsp;
+                            <Button
+                            variant="danger" onClick={()=>obrisi (kupac.sifra)}
+                            >Obriši</Button>
+
                         </td>
                     </tr>
                 ))}
