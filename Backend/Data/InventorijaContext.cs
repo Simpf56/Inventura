@@ -11,5 +11,7 @@ namespace Backend.Data
         }
 
         public DbSet<Kupac> Kupci { get; set; }
+
+        public DbSet<Nabavljac> Nabavljaci { get; set; }
     }
 }

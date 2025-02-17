@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react"
-import KupacService from "../../services/KupacService"
 import { Button, Table } from "react-bootstrap";
 import moment from "moment";
 import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
-import { GrValidate } from "react-icons/gr";
+import NabavljaciService from "../../services/NabavljaciService";
 
 
 
-export default function KupciPregled(){
+export default function NabavljaciPregled(){
 
-    const[kupci,setKupci]= useState([]);
+    const[nabavljaci,setNabavljaci]= useState([]);
     const navigate = useNavigate();
 
-    async function dohvatiKupce(){
-        const odgovor = await KupacService.get()
-        setKupci(odgovor)
+    async function dohvatiNabavljace(){
+        const odgovor = await NabavljaciService.get()
+        setNabavljaci(odgovor)
     }
     //hook se izvodi prilikom dolaska na stranicu Kupci
     useEffect(()=>{
-       dohvatiKupce();
+       dohvatiNabavljace();
     },[])
 
 
@@ -40,60 +39,60 @@ function obrisi(sifra){
     if(!confirm('Sigurno obrisati')){
         return;
     }
-    brisanjeKupca(sifra)
+    brisanjeNabavljaca(sifra)
 }
 
-async function brisanjeKupca(sifra){
-    const odgovor = await KupacService.obrisi(sifra);
+async function brisanjeNabavljaca(sifra){
+    const odgovor = await NabavljaciService.obrisi(sifra);
     if((await odgovor).greska){
-        alert(odgovor.poruka)
-        return
+        alert(odgovor.poruka);
+        return;
     }
-    dohvatiKupce();
+    dohvatiNabavljace();
 }
 
     return(
         <>
         <Link
-        to={RouteNames.KUPCI_NOVI}
+        to={RouteNames.NABAVLJACI_NOVI}
         className="btn btn-success siroko"
-        >Dodaj novog kupca</Link>
+        >Dodaj novog nabavljača</Link>
         <Table striped bordered hover responsive>
             <thead>
                 <tr>
                     <th>Ime</th>
                     <th>Prezime</th>
-                    <th>Br telefona</th>
-                    <th>Adresa</th>
-                    <th>Datum rođenja</th>
+                    <th>Naziv</th>
+                    <th>Kontakt</th>
+                    <th>Broj telefona</th>
                     <th>Akcija</th>
                 </tr>
             </thead>
             <tbody>
-                {kupci && kupci.map((kupac,index)=>(
+                {nabavljaci && nabavljaci.map((nabavljac,index)=>(
                     <tr key={index}>
                         <td>
-                            {kupac.ime}                            
+                            {nabavljac.ime}                            
                         </td>
                         <td>
-                            {kupac.prezime}
+                            {nabavljac.prezime}
                         </td>
                         <td>
-                            {kupac.br_tel}
+                            {nabavljac.naziv}
                         </td>
                         <td>
-                            {kupac.adresa}
+                            {nabavljac.kontakt}
                         </td>
                         <td>
-                            {formatirajDatum(kupac.datum_rod)}
+                            {nabavljac.br_tel}
                         </td>
                         <td>
                             <Button
-                            onClick={()=>navigate(`/kupci/${kupac.sifra}`)}
+                            onClick={()=>navigate(`/nabavljaci/${nabavljac.sifra}`)}
                             >Promjena</Button>
                             &nbsp;&nbsp;&nbsp;
                             <Button
-                            variant="danger" onClick={()=>obrisi (kupac.sifra)}
+                            variant="danger" onClick={()=>obrisi (nabavljac.sifra)}
                             >Obriši</Button>
 
                         </td>
