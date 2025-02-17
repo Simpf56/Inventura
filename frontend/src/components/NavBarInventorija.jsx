@@ -20,14 +20,10 @@ export default function NavBarInventorija(){
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                    <NavDropdown title="Programi" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">Nabavljaci</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">Proizvodi</NavDropdown.Item>
+                    <NavDropdown title="Programi" id="basic-nav-dropdown">                    
                     <NavDropdown.Item 
                         onClick={()=>navigate(RouteNames.KUPCI_PREGLED)}                    
                     >Kupci</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.4">Narudžbe</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.5" >Stavke Narudžbe</NavDropdown.Item>
                     </NavDropdown>
                     <Nav.Link href='https://peki123-001-site1.ntempurl.com/swagger/' target='_blank'>Swagger</Nav.Link>
                 </Nav>
