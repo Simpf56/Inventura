@@ -8,10 +8,9 @@ namespace Backend.Models
         public decimal Ukupan_iznos { get; set; }
         public DateOnly Datum { get; set; }
         public string Status { get; set; }
-        public int KupacSifra { get; set; }
         public Kupac Kupac { get; set; }
 
-        public ICollection<Stavka_Narudzbe> Stavke_Narudzbe { get; set; } = new List<Stavka_Narudzbe>();
+        public ICollection<Stavka_Narudzbe> Stavke_Narudzbe { get; } = [];
 
 
     }

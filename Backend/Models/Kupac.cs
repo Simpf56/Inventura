@@ -11,6 +11,6 @@
         public DateOnly Datum_rod { get; set; }
 
 
-        //public ICollection<Narudzba> Narudzbe { get; set; } = new List<Narudzba>();
+        public ICollection<Narudzba> Narudzbe { get;} = [];
     }
 }

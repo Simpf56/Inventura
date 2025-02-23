@@ -27,6 +27,8 @@ builder.Services.AddCors(o => {
     });
 });
 
+builder.Services.AddAutoMapper(typeof(InventorijaMappingProfile));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

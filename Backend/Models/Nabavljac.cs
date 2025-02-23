@@ -10,5 +10,7 @@ namespace Backend.Models
         public string Kontakt { get; set; }
         public string Br_tel { get; set; }
 
+        public ICollection<Proizvod> Proizvodi { get; } = [];
+
     }
 }
