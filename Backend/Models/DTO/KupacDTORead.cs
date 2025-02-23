@@ -1,11 +1,13 @@
 ﻿namespace Backend.Models.DTO
 {
     public record KupacDTORead(
-        int Sifra,
-        Ime? string,
-        Prezime? string,
-        Br_tel string,
-        Adresa string,
-        Datum_rod DateOnly);
+    int Sifra,
+    string? Ime, 
+    string? Prezime, 
+    string? Naziv,
+    string? Kontakt, 
+    string? Br_tel 
+        );
 }
+
 

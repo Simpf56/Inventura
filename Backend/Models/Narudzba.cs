@@ -8,6 +8,8 @@ namespace Backend.Models
         public decimal Ukupan_iznos { get; set; }
         public DateOnly Datum { get; set; }
         public string Status { get; set; }
+        
+        [ForeignKey("kupac")]
         public Kupac Kupac { get; set; }
 
         public ICollection<Stavka_Narudzbe> Stavke_Narudzbe { get; } = [];

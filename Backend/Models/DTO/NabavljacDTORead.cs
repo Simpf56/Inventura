@@ -1,6 +1,11 @@
 ﻿namespace Backend.Models.DTO
 {
-    public class NabavljacDTORead
-    {
-    }
+    public record NabavljacDTORead(
+    int Sifra,
+    string? Ime,
+    string? Prezime,
+    string? Naziv,
+    string? Kontakt,
+    string? Br_tel
+        );
 }

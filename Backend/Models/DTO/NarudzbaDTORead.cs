@@ -1,6 +1,10 @@
 ﻿namespace Backend.Models.DTO
 {
-    public class NarudzbaDTORead
-    {
-    }
+    public record NarudzbaDTORead(
+    int Sifra,
+    decimal? Ukupan_iznos,
+    DateOnly? Datum, 
+    string? Status, 
+    string? KupacNaziv  
+    );
 }
