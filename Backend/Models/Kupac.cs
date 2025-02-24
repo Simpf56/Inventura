@@ -10,8 +10,6 @@
         public string Adresa { get; set; } = "";
         public DateOnly Datum_rod { get; set; }
 
-        public Narudzba Narudzba { get; set; }
-
         public ICollection<Narudzba> Narudzbe { get;} = [];
     }
 }

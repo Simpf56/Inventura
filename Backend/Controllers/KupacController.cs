@@ -20,7 +20,7 @@ namespace Backend.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<KupacDTORead>>(_context.Kupci));
+                return Ok(_mapper.Map<List<KupacDTORead>>(_context.Kupci.ToList()));
             }
             catch (Exception ex)
             {
