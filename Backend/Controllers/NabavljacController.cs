@@ -1,119 +1,150 @@
-﻿using Backend.Data;
+﻿using AutoMapper;
+using Backend.Data;
 using Backend.Models;
+using Backend.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class NabavljacController : ControllerBase
+    public class NabavljacController(InventorijaContext context, IMapper mapper) : InventorijaController(context, mapper)
     {
 
-        private readonly InventorijaContext _context;
-
-        public NabavljacController(InventorijaContext context)
-        {
-            _context = context;
-        }
-
-
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<List<NabavljacDTORead>> Get()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
             try
             {
-                return Ok(_context.Nabavljaci);
+                return Ok(_mapper.Map<List<NabavljacDTORead>>(_context.Nabavljaci));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
+
         }
 
         [HttpGet]
         [Route("{sifra:int}")]
-        public IActionResult GetBySifra(int sifra)
+        public ActionResult<NabavljacDTORead> GetBySifra(int sifra)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            Nabavljac? e;
             try
             {
-                var s = _context.Nabavljaci.Find(sifra);
-                if (s == null)
-                {
-                    return NotFound();
-                }
-                return Ok(s);
+                e = _context.Nabavljaci.Find(sifra);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
+            if (e == null)
+            {
+                return NotFound(new { poruka = "Nabavljač ne postoji u bazi" });
+            }
+
+            return Ok(_mapper.Map<NabavljacDTORead>(e));
         }
 
         [HttpPost]
-        public IActionResult Post(Nabavljac nabavljac)
+        public IActionResult Post(NabavljacDTOInsertUpdate dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
             try
             {
-                _context.Nabavljaci.Add(nabavljac);
+                var e = mapper.Map<Nabavljac>(dto);
+                _context.Nabavljaci.Add(e);
                 _context.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, nabavljac);
+                return StatusCode(StatusCodes.Status201Created, _mapper.Map<NabavljacDTORead>(e));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
         }
 
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
-        public IActionResult Put(int sifra, Nabavljac nabavljac)
+        public IActionResult Put(int sifra, NabavljacDTOInsertUpdate dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
             try
             {
-                var s = _context.Nabavljaci.Find(sifra);
-
-                if (s == null)
+                Nabavljac? e;
+                try
                 {
-                    return NotFound();
+                    e = _context.Nabavljaci.Find(sifra);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { poruka = "Nabavljač ne postoji u bazi" });
                 }
 
-                s.Ime = nabavljac.Ime;
-                s.Prezime = nabavljac.Prezime;
-                s.Naziv = nabavljac.Naziv;
-                s.Kontakt = nabavljac.Br_tel;
-                s.Br_tel = nabavljac.Br_tel;
+                e = _mapper.Map(dto, e);
 
-                _context.Nabavljaci.Update(s);
+                _context.Nabavljaci.Update(e);
                 _context.SaveChanges();
-                return Ok(new { poruka = "Uspješno promjenjno" });
+
+                return Ok(new { poruka = "Uspješno promjenjeno" });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
         }
+
 
         [HttpDelete]
         [Route("{sifra:int}")]
         public IActionResult Delete(int sifra)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
             try
             {
-                var s = _context.Nabavljaci.Find(sifra);
-                if (s == null)
+                Nabavljac? e;
+                try
                 {
-                    return NotFound();
+                    e = _context.Nabavljaci.Find(sifra);
                 }
-                _context.Nabavljaci.Remove(s);
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound("Nabavljač ne postoji u bazi");
+                }
+                _context.Nabavljaci.Remove(e);
                 _context.SaveChanges();
                 return Ok(new { poruka = "Uspješno obrisano" });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
         }
-
     }
+
 }

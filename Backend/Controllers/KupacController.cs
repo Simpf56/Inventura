@@ -1,119 +1,151 @@
-﻿using Backend.Data;
+﻿using AutoMapper;
+using Backend.Data;
 using Backend.Models;
+using Backend.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class KupacController : ControllerBase
+    public class KupacController(InventorijaContext context, IMapper mapper) : InventorijaController(context, mapper)
     {
 
-        private readonly InventorijaContext _context;
-
-        public KupacController(InventorijaContext context)
-        {
-            _context = context;
-        }
-
-
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<List<KupacDTORead>> Get()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
             try
             {
-                return Ok(_context.Kupci);
+                return Ok(_mapper.Map<List<KupacDTORead>>(_context.Kupci));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
-            }            
+                return BadRequest(new { poruka = ex.Message });
+            }
+
         }
 
         [HttpGet]
         [Route("{sifra:int}")]
-        public IActionResult GetBySifra(int sifra)
+        public ActionResult<KupacDTORead> GetBySifra(int sifra)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            Kupac? e;
             try
             {
-                var s = _context.Kupci.Find(sifra);
-                if (s == null)
-                {
-                    return NotFound();
-                }
-                return Ok(s);
+                e = _context.Kupci.Find(sifra);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
+            if (e == null)
+            {
+                return NotFound(new { poruka = "Kupac ne postoji u bazi" });
+            }
+
+            return Ok(_mapper.Map<KupacDTORead>(e));
         }
 
         [HttpPost]
-        public IActionResult Post(Kupac kupac)
+        public IActionResult Post(KupacDTOInsertUpdate dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
             try
             {
-                _context.Kupci.Add(kupac);
+                var e = mapper.Map<Kupac>(dto);
+                _context.Kupci.Add(e);
                 _context.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, kupac);
+                return StatusCode(StatusCodes.Status201Created, _mapper.Map<KupacDTORead>(e));
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);    
+                return BadRequest(new { poruka = ex.Message });
             }
         }
 
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
-        public IActionResult Put(int sifra, Kupac kupac)
+        public IActionResult Put(int sifra, KupacDTOInsertUpdate dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
             try
             {
-                var s = _context.Kupci.Find(sifra);
-
-                if (s == null)
+                Kupac? e;
+                try
                 {
-                    return NotFound();
+                    e = _context.Kupci.Find(sifra);
                 }
-                
-                s.Ime = kupac.Ime;
-                s.Prezime = kupac.Prezime;
-                s.Br_tel = kupac.Br_tel;
-                s.Adresa = kupac.Adresa;
-                s.Datum_rod = kupac.Datum_rod;
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { poruka = "Kupac ne postoji u bazi" });
+                }
 
-                _context.Kupci.Update(s);
+                e = _mapper.Map<Kupac>(dto, e);
+
+                _context.Kupci.Update(e);
                 _context.SaveChanges();
-                return Ok(new { poruka = "Uspješno promjenjno" });
+
+                return Ok(new { poruka = "Uspješno promjenjeno" });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
         }
+
 
         [HttpDelete]
         [Route("{sifra:int}")]
         public IActionResult Delete(int sifra)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
             try
             {
-                var s = _context.Kupci.Find(sifra);
-                if (s == null)
+                Kupac? e;
+                try
                 {
-                    return NotFound();
+                    e = _context.Kupci.Find(sifra);
                 }
-                _context.Kupci.Remove(s);
+                catch (Exception ex)
+                {
+                    return BadRequest(new { poruka = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound("Kupac ne postoji u bazi");
+                }
+                _context.Kupci.Remove(e);
                 _context.SaveChanges();
                 return Ok(new { poruka = "Uspješno obrisano" });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e);
+                return BadRequest(new { poruka = ex.Message });
             }
         }
-
     }
+
 }
+
