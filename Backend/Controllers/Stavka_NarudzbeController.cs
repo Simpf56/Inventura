@@ -8,11 +8,11 @@ namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class KupacController(InventorijaContext context, IMapper mapper) : InventorijaController(context, mapper)
+    public class Stavka_NarudzbeController(InventorijaContext context, IMapper mapper) : InventorijaController(context, mapper)
     {
 
         [HttpGet]
-        public ActionResult<List<KupacDTORead>> Get()
+        public ActionResult<List<Stavka_NarudzbeDTORead>> Get()
         {
             if (!ModelState.IsValid)
             {
@@ -20,27 +20,26 @@ namespace Backend.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<KupacDTORead>>(_context.Kupci));
+                return Ok(_mapper.Map<List<Stavka_NarudzbeDTORead>>(_context.Stavke_Narudzbe));
             }
             catch (Exception ex)
             {
                 return BadRequest(new { poruka = ex.Message });
             }
-
         }
 
         [HttpGet]
         [Route("{sifra:int}")]
-        public ActionResult<KupacDTORead> GetBySifra(int sifra)
+        public ActionResult<Stavka_NarudzbeDTORead> GetBySifra(int sifra)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(new { poruka = ModelState });
             }
-            Kupac? e;
+            Stavka_Narudzbe? e;
             try
             {
-                e = _context.Kupci.Find(sifra);
+                e = _context.Stavke_Narudzbe.Find(sifra);
             }
             catch (Exception ex)
             {
@@ -48,14 +47,14 @@ namespace Backend.Controllers
             }
             if (e == null)
             {
-                return NotFound(new { poruka = "Kupac ne postoji u bazi" });
+                return NotFound(new { poruka = "Stavka narudžbe ne postoji u bazi" });
             }
 
-            return Ok(_mapper.Map<KupacDTORead>(e));
+            return Ok(_mapper.Map<Stavka_NarudzbeDTORead>(e));
         }
 
         [HttpPost]
-        public IActionResult Post(KupacDTOInsertUpdate dto)
+        public IActionResult Post(Stavka_NarudzbeDTOInsertUpdate dto)
         {
             if (!ModelState.IsValid)
             {
@@ -63,10 +62,10 @@ namespace Backend.Controllers
             }
             try
             {
-                var e = mapper.Map<Kupac>(dto);
-                _context.Kupci.Add(e);
+                var e = mapper.Map<Stavka_Narudzbe>(dto);
+                _context.Stavke_Narudzbe.Add(e);
                 _context.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, _mapper.Map<KupacDTORead>(e));
+                return StatusCode(StatusCodes.Status201Created, _mapper.Map<Stavka_NarudzbeDTORead>(e));
             }
             catch (Exception ex)
             {
@@ -77,7 +76,7 @@ namespace Backend.Controllers
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
-        public IActionResult Put(int sifra, KupacDTOInsertUpdate dto)
+        public IActionResult Put(int sifra, Stavka_NarudzbeDTOInsertUpdate dto)
         {
             if (!ModelState.IsValid)
             {
@@ -85,10 +84,10 @@ namespace Backend.Controllers
             }
             try
             {
-                Kupac? e;
+                Stavka_Narudzbe? e;
                 try
                 {
-                    e = _context.Kupci.Find(sifra);
+                    e = _context.Stavke_Narudzbe.Find(sifra);
                 }
                 catch (Exception ex)
                 {
@@ -96,22 +95,21 @@ namespace Backend.Controllers
                 }
                 if (e == null)
                 {
-                    return NotFound(new { poruka = "Kupac ne postoji u bazi" });
+                    return NotFound(new { poruka = "Stavka narudžbe ne postoji u bazi" });
                 }
 
                 e = _mapper.Map(dto, e);
 
-                _context.Kupci.Update(e);
+                _context.Stavke_Narudzbe.Update(e);
                 _context.SaveChanges();
 
-                return Ok(new { poruka = "Uspješno promjenjeno" });
+                return Ok(new { poruka = "Uspješno promijenjeno" });
             }
             catch (Exception ex)
             {
                 return BadRequest(new { poruka = ex.Message });
             }
         }
-
 
         [HttpDelete]
         [Route("{sifra:int}")]
@@ -123,10 +121,10 @@ namespace Backend.Controllers
             }
             try
             {
-                Kupac? e;
+                Stavka_Narudzbe? e;
                 try
                 {
-                    e = _context.Kupci.Find(sifra);
+                    e = _context.Stavke_Narudzbe.Find(sifra);
                 }
                 catch (Exception ex)
                 {
@@ -134,9 +132,9 @@ namespace Backend.Controllers
                 }
                 if (e == null)
                 {
-                    return NotFound("Kupac ne postoji u bazi");
+                    return NotFound(new { poruka = "Stavka narudžbe ne postoji u bazi" });
                 }
-                _context.Kupci.Remove(e);
+                _context.Stavke_Narudzbe.Remove(e);
                 _context.SaveChanges();
                 return Ok(new { poruka = "Uspješno obrisano" });
             }
@@ -146,6 +144,5 @@ namespace Backend.Controllers
             }
         }
     }
-
 }
 

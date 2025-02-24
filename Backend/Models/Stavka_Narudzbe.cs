@@ -6,10 +6,10 @@ namespace Backend.Models
     {
         public int Kolicina { get; set; }
         public decimal Cijena { get; set; }
-        public int ProizvodSifra { get; set; }
+        [ForeignKey("proizvod")]
         public Proizvod Proizvod { get; set; }
 
-        public int NarudzbaSifra { get; set; }
+        [ForeignKey("narudzba")]
         public Narudzba Narudzba { get; set; }
     }
 }

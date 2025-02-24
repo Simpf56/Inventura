@@ -4,13 +4,13 @@ namespace Backend.Models.DTO
 {
     public record NabavljacDTOInsertUpdate(
         [Required(ErrorMessage = "Ime obavezno")]
-        string? Ime,
+        string Ime,
         [Required(ErrorMessage = "Prezime obavezno")]
-        string? Prezime,
+        string Prezime,
         [Required(ErrorMessage = "Naziv obavezan")]
-        string? Naziv,
+        string Naziv,
         [Required(ErrorMessage = "Adresa obavezna")]
-        string? Adresa
+        string Adresa
         );
 }
 

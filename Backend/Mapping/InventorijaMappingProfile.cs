@@ -19,9 +19,9 @@ namespace Backend.Mapping
             CreateMap<Proizvod, ProizvodDTORead>();
             CreateMap<ProizvodDTOInsertUpdate,Proizvod>();
 
-            CreateMap<Stavka_Narudzbe, Stavka_NarudzbaDTORead>()
+            CreateMap<Stavka_Narudzbe, Stavka_NarudzbeDTORead>()
                 .ForMember(dest => dest.Cijena, opt => opt.MapFrom(src => src.Cijena.ToString("F2")));
-            CreateMap<Stavka_NarudzbaDTOInsertUpdate, Stavka_Narudzbe>();
+            CreateMap<Stavka_NarudzbeDTOInsertUpdate, Stavka_Narudzbe>();
         
         }
     }
