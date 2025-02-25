@@ -10,6 +10,7 @@ namespace Backend.Models
         public string Status { get; set; } = "";
 
         [ForeignKey("kupac")]
+        [Column("kupac")]
         public int? KupacSifra { get; set; }
         public Kupac? Kupac { get; set; }
 

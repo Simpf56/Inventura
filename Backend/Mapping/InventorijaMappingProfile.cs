@@ -14,7 +14,7 @@ namespace Backend.Mapping
             CreateMap<NabavljacDTOInsertUpdate, Nabavljac>();
 
             CreateMap<Narudzba, NarudzbaDTORead>()
-                .ForMember(dest => dest.KupacSifra, opt => opt.MapFrom(src => src.KupacSifra));
+                .ForMember(dest => dest.KupacSifra, opt => opt.MapFrom(src => src.Kupac!.Sifra));
             CreateMap<NarudzbaDTOInsertUpdate, Narudzba>();
 
             CreateMap<Proizvod, ProizvodDTORead>();
