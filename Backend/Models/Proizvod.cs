@@ -5,7 +5,7 @@ namespace Backend.Models
 {
     public class Proizvod : Entitet
     {
-        public string Naziv { get; set; }
+        public string Naziv { get; set; } = "";
         public decimal Cijena { get; set; }
         
         [ForeignKey("nabavljac")]

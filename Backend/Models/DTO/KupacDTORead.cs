@@ -4,9 +4,9 @@
     int Sifra,
     string? Ime, 
     string? Prezime, 
-    string? Naziv,
-    string? Kontakt, 
-    string? Br_tel 
+    string? Br_tel,
+    string? Adresa,
+    DateOnly? Datum_rod
         );
 }
 

@@ -9,8 +9,10 @@ namespace Backend.Models.DTO
         string Prezime,
         [Required(ErrorMessage = "Naziv obavezan")]
         string Naziv,
-        [Required(ErrorMessage = "Adresa obavezna")]
-        string Adresa
+        [Required(ErrorMessage = "Kontakt podatak obavezan")]
+        string Kontakt,
+        [Required(ErrorMessage = "Broj telefona obavezan")]
+        string Br_tel
         );
 }
 
