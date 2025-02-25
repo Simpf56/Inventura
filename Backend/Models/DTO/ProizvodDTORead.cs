@@ -4,6 +4,6 @@
         int Sifra,
         string? Naziv,
         decimal? Cijena,
-        int? NabavljacSifra
+        string NabavljacNaziv
         );
 }

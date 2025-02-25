@@ -6,7 +6,7 @@ namespace Backend.Models.DTO
         int Sifra,
         int? Kolicina,
         decimal? Cijena,
-        int? ProizvodSifra,
-        int? NarudzbaSifra
+        string? ProizvodNaziv,
+        string? NarudzbaNaziv
         );
 }

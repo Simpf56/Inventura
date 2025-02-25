@@ -5,6 +5,6 @@
     decimal? Ukupan_iznos,
     DateOnly? Datum, 
     string? Status, 
-    int? KupacSifra
+    string? KupacPrezime
     );
 }
