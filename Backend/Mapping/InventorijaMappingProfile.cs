@@ -23,7 +23,7 @@ namespace Backend.Mapping
             CreateMap<Proizvod, ProizvodDTORead>()
                 .ForCtorParam(
                 "NabavljacNaziv",
-                opt => opt.MapFrom(src => src.Nabavljac.Naziv)
+                opt => opt.MapFrom(src => src.Nabavljac != null ? src.Nabavljac.Naziv : "Nepoznato")
                 );
             CreateMap<ProizvodDTOInsertUpdate, Proizvod>();
 
