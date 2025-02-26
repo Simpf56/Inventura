@@ -9,7 +9,7 @@ namespace Backend.Models
         public decimal Cijena { get; set; }
         
         [ForeignKey("nabavljac")]
-        public Nabavljac Nabavljac { get; set; }
+        public Nabavljac? Nabavljac { get; set; }
 
         public ICollection<Stavka_Narudzbe> Stavke_Narudzbe { get; } = [];
 

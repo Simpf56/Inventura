@@ -21,7 +21,7 @@ namespace Backend.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<ProizvodDTORead>>(_context.Proizvodi.Include(g => g.Nabavljac).ToList));
+                return Ok(_mapper.Map<List<ProizvodDTORead>>(_context.Proizvodi.Include(g => g.Nabavljac)));
             }
             catch (Exception ex)
             {
