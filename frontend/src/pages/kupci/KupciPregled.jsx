@@ -63,7 +63,7 @@ async function brisanjeKupca(sifra){
                 <tr>
                     <th>Ime</th>
                     <th>Prezime</th>
-                    <th>Br telefona</th>
+                    <th>Broj telefona</th>
                     <th>Adresa</th>
                     <th>Datum rođenja</th>
                     <th>Akcija</th>

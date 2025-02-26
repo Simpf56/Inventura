@@ -7,21 +7,43 @@ async function get(){
         // console.log(odgovor.data)
         return odgovor.data;
     })
-    .catch((e)=>{})
+    .catch((e)=>{console.error(e)})
 }
 
 async function getBySifra(sifra){
     return await HttpService.get('/Kupac/' + sifra)    
     .then((odgovor)=>{
-        return odgovor.data;
+        return {greska: false, poruka: odgovor.data}
     })
-    .catch((e)=>{})
+    .catch(()=>{
+        return{greska: true, poruka: 'Kupac ne postoji!'}
+    })
+}
+
+async function obrisi(sifra){
+    return await HttpService.delete('/Kupac/'+sifra)
+    .then((odgovor)=>{
+        return{greska:false, poruka: odgovor.data}
+    })
+    .catch(()=>{return{greska:true, poruka:'Kupca nije moguće obrisati.'}})
 }
 
 async function dodaj(kupac){
-    return HttpService.post('/Kupac',kupac)
-    .then(()=>{return{greska: false, poruka: 'Dodano'}})
-    .catch(()=>{return{greska:true,poruka: 'Problem kod dodavanja'}})
+    return await HttpService.post('/Kupac',kupac)
+    .then((odgovor)=>{
+        return{greska: false, poruka: odgovor.data}})
+    .catch((e)=>{
+        switch (e.status){
+            case 400:
+                let poruka='';
+                for(const kljuc in e.response.data.erros){
+                    poruke+= kljuc + ': ' + e.response.data.erros[kljuc][0] + '\n';
+                }
+                return{greska:true, poruka: poruke}
+                default:
+                    return { greska:true, poruka: 'Kupac se nemože dodati'}
+        }
+    })
 }
 
 async function promijeni(sifra,kupac){
@@ -30,11 +52,6 @@ async function promijeni(sifra,kupac){
     .catch(()=>{return{greska:true, poruka:'Problem kod dodavanja'}})
 }
 
-async function obrisi(sifra){
-    return HttpService.delete('/Kupac/'+sifra)
-    .then(()=>{return{greska:false, poruka: 'Obrisano'}})
-    .catch(()=>{return{greska:true, poruka:'Kupca nije moguće obrisati.'}})
-}
 
 export default{
     get,
