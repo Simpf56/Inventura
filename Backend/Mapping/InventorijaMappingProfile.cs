@@ -20,13 +20,26 @@ namespace Backend.Mapping
                 );
             CreateMap<NarudzbaDTOInsertUpdate, Narudzba>();
 
-            CreateMap<Proizvod, ProizvodDTORead>();
+            CreateMap<Proizvod, ProizvodDTORead>()
+                .ForCtorParam(
+                "NabavljacNaziv",
+                opt => opt.MapFrom(src => src.Nabavljac.Naziv)
+                );
             CreateMap<ProizvodDTOInsertUpdate, Proizvod>();
 
             CreateMap<Stavka_Narudzbe, Stavka_NarudzbeDTORead>()
-                .ForMember(dest => dest.Cijena, opt => opt.MapFrom(src => src.Cijena.ToString("F2")))
-                .ForMember(dest => dest.ProizvodNaziv, opt => opt.MapFrom(src => src.Proizvod!.Sifra))
-                .ForMember(dest => dest.NarudzbaNaziv, opt => opt.MapFrom(src => src.Narudzba!.Sifra));
+                .ForCtorParam(
+                    "Cijena",
+                    opt => opt.MapFrom(src => src.Cijena.ToString("F2"))
+                )
+                .ForCtorParam(
+                    "ProizvodNaziv",
+                    opt => opt.MapFrom(src => src.Proizvod.Naziv)
+                )
+                .ForCtorParam(
+                    "NarudzbaNaziv",
+                    opt => opt.MapFrom(src => src.Narudzba.Sifra)
+                );
             CreateMap<Stavka_NarudzbeDTOInsertUpdate, Stavka_Narudzbe>();
 
         }
