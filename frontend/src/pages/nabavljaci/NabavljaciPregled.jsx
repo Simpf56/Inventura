@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Button, Table } from "react-bootstrap";
 import moment from "moment";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { RouteNames } from "../../constants";
 import NabavljaciService from "../../services/NabavljaciService";
 
@@ -12,14 +12,18 @@ export default function NabavljaciPregled(){
     const[nabavljaci,setNabavljaci]= useState([]);
     const navigate = useNavigate();
 
-    async function dohvatiNabavljace(){
-        const odgovor = await NabavljaciService.get()
-        setNabavljaci(odgovor)
+    async function dohvatiNabavljace() {        
+        await NabavljaciService.get()
+        .then((odgovor)=>{
+            setNabavljaci(odgovor);
+        })
+        .catch((e)=>{console.log(e)});
+
     }
     //hook se izvodi prilikom dolaska na stranicu Kupci
     useEffect(()=>{
        dohvatiNabavljace();
-    },[])
+    },[]);
 
 
 function formatirajDatum(datum){
@@ -35,20 +39,18 @@ function formatirajDatum(datum){
 //     else return 'red'
 // }
 
-function obrisi(sifra){
-    if(!confirm('Sigurno obrisati')){
-        return;
-    }
-    brisanjeNabavljaca(sifra)
-}
-
-async function brisanjeNabavljaca(sifra){
+async function obrisiAsync(sifra) {
     const odgovor = await NabavljaciService.obrisi(sifra);
-    if((await odgovor).greska){
+    //console.log(odgovor);
+    if(odgovor.greska){
         alert(odgovor.poruka);
         return;
     }
     dohvatiNabavljace();
+}
+
+function obrisi(sifra){
+    obrisiAsync(sifra);
 }
 
     return(
@@ -69,30 +71,30 @@ async function brisanjeNabavljaca(sifra){
                 </tr>
             </thead>
             <tbody>
-                {nabavljaci && nabavljaci.map((nabavljac,index)=>(
+                {nabavljaci && nabavljaci.map((e,index)=>(
                     <tr key={index}>
                         <td>
-                            {nabavljac.ime}                            
+                            {e.ime}                            
                         </td>
                         <td>
-                            {nabavljac.prezime}
+                            {e.prezime}
                         </td>
                         <td>
-                            {nabavljac.naziv}
+                            {e.naziv}
                         </td>
                         <td>
-                            {nabavljac.kontakt}
+                            {e.kontakt}
                         </td>
                         <td>
-                            {nabavljac.br_tel}
+                            {e.br_tel}
                         </td>
                         <td>
                             <Button
-                            onClick={()=>navigate(`/nabavljaci/${nabavljac.sifra}`)}
+                            onClick={()=>navigate(`/nabavljaci/${e.sifra}`)}
                             >Promjena</Button>
                             &nbsp;&nbsp;&nbsp;
                             <Button
-                            variant="danger" onClick={()=>obrisi (nabavljac.sifra)}
+                            variant="danger" onClick={()=>obrisi (e.sifra)}
                             >Obriši</Button>
 
                         </td>

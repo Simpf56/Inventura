@@ -8,21 +8,24 @@ import { useEffect, useState } from "react";
 export default function KupciPromjena(){
 
     const navigate = useNavigate();
-    const [kupac,setKupac] = useState({});
     const routeParams= useParams();
+    const [kupac,setKupac] = useState({});
 
     async function dohvatiKupac(){
         const odgovor = await KupacService.getBySifra(routeParams.sifra)
-        setKupac(odgovor)
-
+        if (odgovor.greska){
+            alert(odgovor.poruka);
+            return;
+        }
+        setKupac(odgovor.poruka);
     }
     
     useEffect(()=>{
         dohvatiKupac();
-    },[]
-)
-async function promijeni(kupac){
-    const odgovor = await KupacService.promijeni(routeParams.sifra,kupac)
+    },[]);
+
+async function promijeni(e){
+    const odgovor = await KupacService.promijeni(routeParams.sifra,e)
     if (odgovor.greska){
         alert(odgovor.poruka)
         return
@@ -33,7 +36,7 @@ async function promijeni(kupac){
     function odradiSubmit(e){ //e je event
         e.preventDefault(); // nemoj odraditi zahtjev na server po standardnom načinu
 
-        let podaci = new FormData(e.target);
+        const podaci = new FormData(e.target);
 
         promijeni(
             {

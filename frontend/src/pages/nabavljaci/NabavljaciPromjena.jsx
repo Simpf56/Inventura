@@ -19,21 +19,21 @@ export default function NabavljaciPromjena(){
     
     useEffect(()=>{
         dohvatiNabavljace();
-    },[]
-)
-async function promijeni(nabavljac){
-    const odgovor = await NabavljaciService.promijeni(routeParams.sifra,nabavljac)
-    if (odgovor.greska){
-        alert(odgovor.poruka)
-        return
+    },[]);
+
+    async function promijeni(e){
+        const odgovor = await NabavljaciService.promijeni(routeParams.sifra,e)
+        if (odgovor.greska){
+            alert(odgovor.poruka)
+            return;
+        }
+        navigate(RouteNames.NABAVLJACI_PREGLED)
     }
-    navigate(RouteNames.NABAVLJACI_PREGLED)
-}
 
     function odradiSubmit(e){ //e je event
         e.preventDefault(); // nemoj odraditi zahtjev na server po standardnom načinu
 
-        let podaci = new FormData(e.target);
+        const podaci = new FormData(e.target);
 
         promijeni(
             {
@@ -42,8 +42,7 @@ async function promijeni(nabavljac){
             naziv: podaci.get('naziv'),
             kontakt: podaci.get('kontakt'),
             br_tel: podaci.get('br_tel')
-            }
-        );
+        });
     }
 
     return(

@@ -8,13 +8,12 @@ export default function NabavljaciDodaj(){
 
     const navigate = useNavigate();
 
-    async function dodaj(nabavljac) {
-        const odgovor = await NabavljaciService.dodaj(nabavljac)
+    async function dodaj(e) {
+        const odgovor = await NabavljaciService.dodaj(e)
         if(odgovor.greska){
             alert(odgovor.greska)
             return
         }
-
         navigate(RouteNames.NABAVLJACI_PREGLED)
     }
 

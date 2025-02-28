@@ -21,7 +21,7 @@ export default function KupciDodaj(){
     function odradiSubmit(e){ //e je event
         e.preventDefault(); // nemoj odraditi zahtjev na server po standardnom načinu
 
-        let podaci = new FormData(e.target);
+        const podaci = new FormData(e.target);
 
         dodaj(
             {
@@ -58,6 +58,11 @@ export default function KupciDodaj(){
                 <Form.Label>Datum rođenja</Form.Label>
                 <Form.Control type="date" name="datum_rod" required/>
             </Form.Group>
+
+
+
+
+            
             <hr/>    
             <Row>
                 <Col xs={6} sm={12} med={3} lg={6} xl={6} xxl={6}>

@@ -14,10 +14,13 @@ export default function KupciPregled(){
     const navigate = useNavigate();
 
     async function dohvatiKupce(){
-        const odgovor = await KupacService.get()
-        setKupci(odgovor)
+        await KupacService.get()
+        .then((odgovor)=>{
+            setKupci(odgovor);
+        })
+        .catch((e)=>{console.log(e)});
     }
-    //hook se izvodi prilikom dolaska na stranicu Kupci
+
     useEffect(()=>{
        dohvatiKupce();
     },[])
@@ -36,21 +39,19 @@ function formatirajDatum(datum){
 //     else return 'red'
 // }
 
-function obrisi(sifra){
-    if(!confirm('Sigurno obrisati')){
-        return;
+async function obrisiAsync(sifra) {
+        const odgovor = await KupacService.obrisi(sifra);
+        //console.log(odgovor);
+        if(odgovor.greska){
+            alert(odgovor.poruka);
+            return;
+        }
+        dohvatiKupce();
     }
-    brisanjeKupca(sifra)
-}
 
-async function brisanjeKupca(sifra){
-    const odgovor = await KupacService.obrisi(sifra);
-    if((await odgovor).greska){
-        alert(odgovor.poruka)
-        return
+    function obrisi(sifra){
+        obrisiAsync(sifra);
     }
-    dohvatiKupce();
-}
 
     return(
         <>
@@ -70,30 +71,31 @@ async function brisanjeKupca(sifra){
                 </tr>
             </thead>
             <tbody>
-                {kupci && kupci.map((kupac,index)=>(
+                {kupci && kupci.map((e,index)=>(
                     <tr key={index}>
                         <td>
-                            {kupac.ime}                            
+                            {e.ime}                            
                         </td>
                         <td>
-                            {kupac.prezime}
+                            {e.prezime}
                         </td>
                         <td>
-                            {kupac.br_tel}
+                            {e.br_tel}
                         </td>
                         <td>
-                            {kupac.adresa}
+                            {e.adresa}
                         </td>
                         <td>
-                            {formatirajDatum(kupac.datum_rod)}
+                            {formatirajDatum(e.datum_rod)}
                         </td>
                         <td>
                             <Button
-                            onClick={()=>navigate(`/kupci/${kupac.sifra}`)}
+                            onClick={()=>navigate(`/kupci/${e.sifra}`)}
                             >Promjena</Button>
                             &nbsp;&nbsp;&nbsp;
                             <Button
-                            variant="danger" onClick={()=>obrisi (kupac.sifra)}
+                            variant="danger" 
+                            onClick={()=>obrisi (e.sifra)}
                             >Obriši</Button>
 
                         </td>
