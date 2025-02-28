@@ -13,7 +13,7 @@ export const RouteNames={
 
     NARUDZBE_PREGLED: '/narudzbe',
     NARUDZBE_NOVI: '/narudzbe/dodaj',
-    NABAVLJACI_PROMJENA: '/narudzbe/:sifra',
+    NARUDZBE_PROMJENA: '/narudzbe/:sifra',
 }
 
 export const BACKEND_URL = 'https://peki123-001-site1.ntempurl.com/api/v1';

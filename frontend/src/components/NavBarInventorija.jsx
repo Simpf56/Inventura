@@ -27,6 +27,9 @@ export default function NavBarInventorija(){
                     <NavDropdown.Item 
                         onClick={()=>navigate(RouteNames.NABAVLJACI_PREGLED)}                    
                     >Nabavljači</NavDropdown.Item>
+                    <NavDropdown.Item 
+                        onClick={()=>navigate(RouteNames.NARUDZBE_PREGLED)}                    
+                    >Narudžbe</NavDropdown.Item>
                     </NavDropdown>
                     <Nav.Link href='https://peki123-001-site1.ntempurl.com/swagger/' target='_blank'>Swagger</Nav.Link>
                 </Nav>

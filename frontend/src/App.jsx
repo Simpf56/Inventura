@@ -11,6 +11,7 @@ import KupciPromjena from './pages/kupci/KupciPromjena'
 import NabavljaciPregled from './pages/nabavljaci/NabavljaciPregled'
 import NabavljaciDodaj from './pages/nabavljaci/NabavljaciDodaj'
 import NabavljaciPromjena from './pages/nabavljaci/NabavljaciPromjena'
+import NarudzbePregled from './pages/narudzbe/NarudzbePregled'
 
 function App() {
   
@@ -25,9 +26,12 @@ function App() {
           <Route path={RouteNames.KUPCI_PREGLED} element = {<KupciPregled/>} />
           <Route path={RouteNames.KUPCI_NOVI} element = {<KupciDodaj/>} />
           <Route path={RouteNames.KUPCI_PROMJENA} element = {<KupciPromjena/>} />
+
           <Route path={RouteNames.NABAVLJACI_PREGLED} element ={<NabavljaciPregled/>}/>
           <Route path={RouteNames.NABAVLJACI_NOVI} element ={<NabavljaciDodaj/>}/>
           <Route path={RouteNames.NABAVLJACI_PROMJENA} element ={<NabavljaciPromjena/>}/>
+
+          <Route path={RouteNames.NARUDZBE_PREGLED} element ={<NarudzbePregled/>}/>
         </Routes>
 
         <hr/>
