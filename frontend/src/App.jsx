@@ -12,6 +12,8 @@ import NabavljaciPregled from './pages/nabavljaci/NabavljaciPregled'
 import NabavljaciDodaj from './pages/nabavljaci/NabavljaciDodaj'
 import NabavljaciPromjena from './pages/nabavljaci/NabavljaciPromjena'
 import NarudzbePregled from './pages/narudzbe/NarudzbePregled'
+import NarudzbeDodaj from './pages/narudzbe/NarudzbeDodaj'
+import NarudzbePromjena from './pages/narudzbe/NarudzbePromjena'
 
 function App() {
   
@@ -32,6 +34,9 @@ function App() {
           <Route path={RouteNames.NABAVLJACI_PROMJENA} element ={<NabavljaciPromjena/>}/>
 
           <Route path={RouteNames.NARUDZBE_PREGLED} element ={<NarudzbePregled/>}/>
+          <Route path={RouteNames.NARUDZBE_NOVI} element={<NarudzbeDodaj/>}/>
+          <Route path={RouteNames.NARUDZBE_PROMJENA} element={<NarudzbePromjena/>}/>
+
         </Routes>
 
         <hr/>

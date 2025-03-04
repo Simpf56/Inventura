@@ -49,7 +49,7 @@ export default function NarudzbePregled(){
             alert(odgovor.poruka)
             return
         }
-        dohvatiSmjerove();
+        dohvatiNarudzbe();
     }
 
     function obrisi(sifra){
@@ -81,7 +81,7 @@ export default function NarudzbePregled(){
                         <td className="sredina">
                             {narudzba.ukupan_iznos}
                         </td>
-                        <td>{formatirajDatum(narudzba.ukupan_iznos)}</td>
+                        <td>{formatirajDatum(narudzba.datum)}</td>
                         <td>{narudzba.status}</td>
                         <td>{narudzba.kupacPrezime}</td>                        
                         <td>

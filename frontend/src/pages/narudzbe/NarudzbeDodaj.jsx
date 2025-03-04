@@ -1,11 +1,16 @@
 import NarudzbaService from "../../services/NarudzbaService";
+import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import moment from 'moment';
+import { RouteNames } from "../../constants";
 
-export default function SmjeroviDodaj(){
+export default function NarudzbeDodaj(){
 
     const navigate = useNavigate()
 
     async function dodaj(narudzba) {
         const odgovor = await NarudzbaService.dodaj(narudzba)
+        console.log(odgovor);
         if(odgovor.greska){
             alert(odgovor.poruka)
             return;
@@ -13,51 +18,56 @@ export default function SmjeroviDodaj(){
         navigate(RouteNames.NARUDZBE_PREGLED)
     }
 
-    function obradiSubmit(e){ // e je event
-        e.preventDefault(); // nemoj odraditi zahtjev na server
+    function obradiSubmit(e){ 
+        e.preventDefault();
         let podaci = new FormData(e.target)
-        //console.log(podaci.get('naziv'))
         dodaj({
-            ukupan_iznos: podaci.get('naziv'),
-            cijenaSmjera: parseFloat(podaci.get('cijenaSmjera')),
-            izvodiSeOd: moment.utc(podaci.get('izvodiSeOd')),
-            vaucer: podaci.get('vaucer')=='on' ? true : false 
-        })
+            ukupan_iznos: podaci.get('ukupan_iznos'),
+            datum: podaci.get('datum'),
+            status: podaci.get('status'),
+            kupacSifra: podaci.get('kupacSifra')
+        })        
+    }
+
+    function formatirajDatum(datum){
+        if(datum==null){
+            return 'Nije definirano'
+        }
+        return moment.utc(datum).format('DD.MM.YYYY')
     }
 
     return(
         <>
-        Dodavanje smjera
+        Dodavanje narudžbe
         <Form onSubmit={obradiSubmit}>
 
-            <Form.Group controlId="naziv">
-                <Form.Label>Naziv</Form.Label>
-                <Form.Control type="text" name="naziv" required />
+            <Form.Group controlId="ukupan_iznos">
+                <Form.Label>Ukupan iznos</Form.Label>
+                <Form.Control type="number" name="ukupan_iznos" required />
             </Form.Group>
 
-            <Form.Group controlId="cijenaSmjera">
-                <Form.Label>Cijena</Form.Label>
-                <Form.Control type="number" step={0.01} name="cijenaSmjera"  />
-            </Form.Group>
-
-            <Form.Group controlId="izvodiSeOd">
-                <Form.Label>Izvodi se od</Form.Label>
-                <Form.Control type="date" name="izvodiSeOd" />
-            </Form.Group>
-
-            <Form.Group controlId="vaucer">
-                <Form.Check label="Vaučer" name="vaucer" />
-            </Form.Group>
+            <Form.Group controlId="datum">
+                <Form.Label>Datum</Form.Label>
+                <Form.Control type="date" name="datum"  />
+            </Form.Group >
+            <FormGroup controlId="status">
+            <Form.Label>Status</Form.Label>
+            <Form.Control type="text" name="status" />
+            </FormGroup>
+            <Form.Group controlId="kupacSifra">
+                <Form.Label>Kupac Šifra</Form.Label>
+                <Form.Control type="number" name="kupacSifra" required />
+            </Form.Group>           
 
         <Row className="akcije">
             <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>
-            <Link to={RouteNames.SMJER_PREGLED} 
+            <Link to={RouteNames.NARUDZBE_PREGLED} 
             className="btn btn-danger siroko">Odustani</Link>
             </Col>
             <Col xs={6} sm={12} md={9} lg={6} xl={6} xxl={6}>
             <Button variant="success"
             type="submit"
-            className="siroko">Dodaj smjer</Button>
+            className="siroko">Dodaj narudžbu</Button>
             </Col>
         </Row>
         </Form>
