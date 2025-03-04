@@ -11,7 +11,6 @@ namespace Backend.Models
 
         [ForeignKey("kupac")]
         [Column("kupac")]
-        public int? KupacSifra { get; set; }
         public Kupac? Kupac { get; set; }
 
         public ICollection<Stavka_Narudzbe> Stavke_Narudzbe { get; } = [];

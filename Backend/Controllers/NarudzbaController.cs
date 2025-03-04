@@ -21,7 +21,7 @@ namespace Backend.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<NarudzbaDTORead>>(_context.Narudzbe.ToList()));
+                return Ok(_mapper.Map<List<NarudzbaDTORead>>(_context.Narudzbe.Include(n=>n.Kupac).ToList()));
             }
             catch (Exception ex)
             {
