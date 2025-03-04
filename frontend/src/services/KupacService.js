@@ -66,11 +66,20 @@ async function promijeni(sifra,kupac){
             
 }
 
+async function traziKupac(uvjet){
+    return await HttpService.get('/Kupac/trazi/'+uvjet)
+    .then((odgovor)=>{        
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch((e)=>{return {greska: true, poruka: 'Problem kod traženja kupca.'}})
+}
+
 
 export default{
     get,
     getBySifra,
     promijeni,
     dodaj,
-    obrisi
+    obrisi,
+    traziKupac
 }

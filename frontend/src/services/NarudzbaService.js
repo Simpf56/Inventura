@@ -72,11 +72,22 @@ async function getBySifra(sifra){
     })
 }
 
+async function traziKupca(uvjet) {
+    const odgovor = await NarudzbaService.traziKupca(uvjet);
+    if (odgovor.greska) {
+        alert(odgovor.poruka);
+        return;
+    }
+    setKupci(odgovor.poruka);
+}
+
+
 
 export default{
     get,
     brisanje,
     dodaj,
     getBySifra,
-    promjena
+    promjena,
+    traziKupca
 }
