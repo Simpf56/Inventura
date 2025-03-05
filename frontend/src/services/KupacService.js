@@ -46,6 +46,17 @@ async function dodaj(kupac){
     })
 }
 
+async function dohvatiSve() {
+    return await HttpService.get('/Kupac')
+        .then((odgovor) => {
+            return { greska: false, poruka: odgovor.data };
+        })
+        .catch((e) => {
+            return { greska: true, poruka: 'Greška prilikom dohvaćanja kupaca' };
+        });
+}
+
+
 async function promijeni(sifra,kupac){
     return HttpService.put('/Kupac/'+sifra, kupac)
     .then((odgovor)=>{
@@ -81,5 +92,6 @@ export default{
     promijeni,
     dodaj,
     obrisi,
-    traziKupac
+    traziKupac,
+    dohvatiSve
 }

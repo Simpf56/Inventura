@@ -1,18 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import moment from 'moment';
-import { RouteNames } from "../../constants";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
+import { RouteNames } from "../../constants";
 import KupacService from "../../services/KupacService";
 import NarudzbaService from "../../services/NarudzbaService";
 
 export default function NarudzbeDodaj() {
-
     const navigate = useNavigate();
+    const [kupci, setKupci] = useState([]);
+    const [odabraniKupac, setOdabraniKupac] = useState(null);
+    const [sviKupci, setSviKupci] = useState([]);
 
-    const [kupci, setKupci] = useState([]);  // Sprema pronađene kupce
-    const [odabraniKupac, setOdabraniKupac] = useState(null);  // Sprema odabranog kupca
+    useEffect(() => {
+        async function dohvatiKupce() {
+            const odgovor = await KupacService.dohvatiSve();
+            if (!odgovor.greska) {
+                setSviKupci(odgovor.poruka);
+            }
+        }
+        dohvatiKupce();
+    }, []);
+
+    function traziKupca(uvjet) {
+        const filtriraniKupci = sviKupci.filter(kupac =>
+            kupac.prezime.toLowerCase().includes(uvjet.toLowerCase())
+        );
+        setKupci(filtriraniKupci);
+    }
 
     async function dodaj(narudzba) {
         const odgovor = await NarudzbaService.dodaj(narudzba);
@@ -27,20 +42,11 @@ export default function NarudzbeDodaj() {
         e.preventDefault();
         let podaci = new FormData(e.target);
         dodaj({
-            ukupan_iznos: podaci.get('ukupan_iznos'),
-            datum: podaci.get('datum'),
-            status: podaci.get('status'),
-            kupacSifra: odabraniKupac?.sifra  // Sprema samo šifru kupca
+            ukupan_iznos: podaci.get("ukupan_iznos"),
+            datum: podaci.get("datum"),
+            status: podaci.get("status"),
+            kupacPrezime: odabraniKupac?.prezime || ""
         });
-    }
-
-    async function traziKupca(uvjet) {
-        const odgovor = await NarudzbaService.traziKupca(uvjet);
-        if (odgovor.greska) {
-            alert(odgovor.poruka);
-            return;
-        }
-        setKupci(odgovor.poruka);
     }
 
     return (
@@ -58,12 +64,12 @@ export default function NarudzbeDodaj() {
                 </Form.Group>
 
                 <FormGroup controlId="status">
-                <Form.Label>Status</Form.Label>
-                <Form.Select aria-label="Default select example">                
-                <option value="1">Zaprimljeno</option>
-                <option value="2">U obradi</option>
-                <option value="3">Poslano</option>
-                </Form.Select>                    
+                    <Form.Label>Status</Form.Label>
+                    <Form.Select name="status">
+                        <option value="Zaprimljeno">Zaprimljeno</option>
+                        <option value="U obradi">U obradi</option>
+                        <option value="Poslano">Poslano</option>
+                    </Form.Select>
                 </FormGroup>
 
                 <Form.Group controlId="kupacSifra">
@@ -84,7 +90,7 @@ export default function NarudzbeDodaj() {
                             setOdabraniKupac(selected.length > 0 ? selected[0] : null);
                         }}
                     />
-                    <p>{odabraniKupac ? `${odabraniKupac.ime} ${odabraniKupac.prezime}` : 'Nije odabran kupac'}</p>
+                    <p>{odabraniKupac ? `${odabraniKupac.prezime}` : "Nije odabran kupac"}</p>
                 </Form.Group>
 
                 <Row className="akcije">
