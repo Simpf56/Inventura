@@ -61,9 +61,26 @@ namespace Backend.Controllers
             {
                 return BadRequest(new { poruka = ModelState });
             }
+
+            Kupac? es;
+            try
+            {
+                es = _context.Kupci.Find(dto.KupacSifra);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+            if (es == null)
+            {
+                return NotFound(new { poruka = "Kupac ne postoji u bazi" });
+            }
+
+
             try
             {
                 var e = mapper.Map<Narudzba>(dto);
+                e.Kupac = es;
                 _context.Narudzbe.Add(e);
                 _context.SaveChanges();
                 return StatusCode(StatusCodes.Status201Created, _mapper.Map<NarudzbaDTORead>(e));

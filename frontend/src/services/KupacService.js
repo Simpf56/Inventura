@@ -10,6 +10,15 @@ async function get(){
     .catch((e)=>{console.error(e)})
 }
 
+async function trazi(uvjet){
+    return await HttpService.get('/Kupac/trazi?uvjet=' + uvjet)    
+    .then((odgovor)=>{
+        // console.log(odgovor.data)
+        return odgovor.data;
+    })
+    .catch((e)=>{console.error(e)})
+}
+
 async function getBySifra(sifra){
     return await HttpService.get('/Kupac/' + sifra)    
     .then((odgovor)=>{
@@ -88,6 +97,7 @@ async function traziKupac(uvjet){
 
 export default{
     get,
+    trazi,
     getBySifra,
     promijeni,
     dodaj,

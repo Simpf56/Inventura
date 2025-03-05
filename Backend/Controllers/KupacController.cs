@@ -145,6 +145,29 @@ namespace Backend.Controllers
                 return BadRequest(new { poruka = ex.Message });
             }
         }
+
+
+        [HttpGet]
+        [Route("trazi")]
+        public ActionResult<List<KupacDTORead>> Trazi(string uvjet)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { poruka = ModelState });
+            }
+            try
+            {
+                var kupci = _context.Kupci.Where(k => k.Ime.Contains(uvjet) || k.Prezime.Contains(uvjet)).ToList();
+                return Ok(_mapper.Map<List<KupacDTORead>>(kupci));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { poruka = ex.Message });
+            }
+
+
+        }
+
     }
 
 }

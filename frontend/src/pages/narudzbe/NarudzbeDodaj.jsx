@@ -10,23 +10,14 @@ export default function NarudzbeDodaj() {
     const navigate = useNavigate();
     const [kupci, setKupci] = useState([]);
     const [odabraniKupac, setOdabraniKupac] = useState(null);
-    const [sviKupci, setSviKupci] = useState([]);
 
     useEffect(() => {
-        async function dohvatiKupce() {
-            const odgovor = await KupacService.dohvatiSve();
-            if (!odgovor.greska) {
-                setSviKupci(odgovor.poruka);
-            }
-        }
-        dohvatiKupce();
+        
     }, []);
 
-    function traziKupca(uvjet) {
-        const filtriraniKupci = sviKupci.filter(kupac =>
-            kupac.prezime.toLowerCase().includes(uvjet.toLowerCase())
-        );
-        setKupci(filtriraniKupci);
+    async function traziKupca(uvjet) {
+       const odgovor = await KupacService.trazi(uvjet)
+       setKupci(odgovor)
     }
 
     async function dodaj(narudzba) {
@@ -45,7 +36,7 @@ export default function NarudzbeDodaj() {
             ukupan_iznos: podaci.get("ukupan_iznos"),
             datum: podaci.get("datum"),
             status: podaci.get("status"),
-            kupacPrezime: odabraniKupac?.prezime || ""
+            kupacSifra: odabraniKupac?.sifra || 0
         });
     }
 
@@ -90,7 +81,7 @@ export default function NarudzbeDodaj() {
                             setOdabraniKupac(selected.length > 0 ? selected[0] : null);
                         }}
                     />
-                    <p>{odabraniKupac ? `${odabraniKupac.prezime}` : "Nije odabran kupac"}</p>
+                    <p>{odabraniKupac ? `${odabraniKupac.prezime} ${odabraniKupac.ime}` : "Nije odabran kupac"}</p>
                 </Form.Group>
 
                 <Row className="akcije">
