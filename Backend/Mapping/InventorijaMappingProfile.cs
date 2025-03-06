@@ -16,7 +16,7 @@ namespace Backend.Mapping
             CreateMap<Narudzba, NarudzbaDTORead>()
                 .ForCtorParam(
                     "KupacPrezime",
-                    opt => opt.MapFrom(src => src.Kupac.Prezime)
+                    opt => opt.MapFrom(src => src.Kupac.Prezime != null ? src.Kupac.Prezime : "Nepoznato")
                 );
             CreateMap<NarudzbaDTOInsertUpdate, Narudzba>();
 

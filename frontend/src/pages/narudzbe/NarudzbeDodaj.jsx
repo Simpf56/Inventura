@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
@@ -10,6 +10,7 @@ export default function NarudzbeDodaj() {
     const navigate = useNavigate();
     const [kupci, setKupci] = useState([]);
     const [odabraniKupac, setOdabraniKupac] = useState(null);
+    const typeaheadRef = useRef(null);
 
     useEffect(() => {
         
@@ -54,26 +55,27 @@ export default function NarudzbeDodaj() {
                     <Form.Control type="date" name="datum" />
                 </Form.Group>
 
-                <FormGroup controlId="status">
+                <Form.Group controlId="status">
                     <Form.Label>Status</Form.Label>
                     <Form.Select name="status">
                         <option value="Zaprimljeno">Zaprimljeno</option>
                         <option value="U obradi">U obradi</option>
                         <option value="Poslano">Poslano</option>
                     </Form.Select>
-                </FormGroup>
+                </Form.Group>
 
                 <Form.Group controlId="kupacSifra">
                     <Form.Label>Traži kupca</Form.Label>
                     <AsyncTypeahead
+                        ref={typeaheadRef}
                         id="uvjet"
-                        minLength={3}
+                        minLength={1}
                         emptyLabel="Nema rezultata"
                         searchText="Tražim..."
                         labelKey={(kupac) => `${kupac.ime} ${kupac.prezime}`}
                         options={kupci}
                         onSearch={traziKupca}
-                        placeholder="Upišite najmanje 3 slova prezimena kupca"
+                        placeholder="Upišite najmanje 1 slova prezimena kupca"
                         renderMenuItemChildren={(kupac) => (
                             <span>{kupac.ime} {kupac.prezime}</span>
                         )}

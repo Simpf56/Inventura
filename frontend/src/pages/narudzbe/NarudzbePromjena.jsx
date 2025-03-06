@@ -4,11 +4,17 @@ import moment from "moment";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { RouteNames } from "../../constants";
 import NarudzbaService from "../../services/NarudzbaService";
+import { AsyncTypeahead} from "react-bootstrap-typeahead";
+import { useRef } from "react";
+import KupacService from "../../services/KupacService";
 
 export default function NarudzbePromjena() {
     const [narudzba, setNarudzba] = useState({});
     const navigate = useNavigate();
     const routeParams = useParams();
+    const [kupci, setKupci] = useState([]);
+    const [odabraniKupac, setOdabraniKupac] = useState(null);
+    const typeaheadRef = useRef(null);
 
     async function dohvatiNarudzbu() {
         const odgovor = await NarudzbaService.getBySifra(routeParams.sifra);
@@ -42,9 +48,14 @@ export default function NarudzbePromjena() {
             ukupan_iznos: parseInt(podaci.get('ukupan_iznos')),
             datum: moment(podaci.get('datum')).format('YYYY-MM-DD'),
             status: podaci.get('status'),
-            kupacSifra: parseInt(podaci.get('kupacSifra'))
+            kupacSifra: odabraniKupac?.sifra ?? podaci.get('kupacSifra')
         });
     }
+
+    async function traziKupca(uvjet) {
+           const odgovor = await KupacService.trazi(uvjet)
+           setKupci(odgovor)
+        }
 
     return (
         <>
@@ -63,12 +74,34 @@ export default function NarudzbePromjena() {
 
                 <Form.Group controlId="status">
                     <Form.Label>Status</Form.Label>
-                    <Form.Control type="text" name="status" defaultValue={narudzba.status} />
+                    <Form.Select name="status">
+                        <option value="Zaprimljeno">Zaprimljeno</option>
+                        <option value="U obradi">U obradi</option>
+                        <option value="Poslano">Poslano</option>
+                    </Form.Select>
                 </Form.Group>
 
                 <Form.Group controlId="kupacSifra">
-                    <Form.Label>Kupac Sifra</Form.Label>
-                    <Form.Control type="number" name="kupacSifra" defaultValue={narudzba.kupacSifra} required />
+                    <Form.Label>Traži kupca</Form.Label>
+                    <AsyncTypeahead
+                        positionFixed
+                        ref={typeaheadRef}
+                        id="uvjet"
+                        minLength={3}
+                        emptyLabel="Nema rezultata"
+                        searchText="Tražim..."
+                        labelKey={(kupac) => `${kupac.ime} ${kupac.prezime}`}
+                        options={kupci}
+                        onSearch={traziKupca}
+                        placeholder="Upišite najmanje 3 slova prezimena kupca"
+                        renderMenuItemChildren={(kupac) => (
+                            <span>{kupac.ime} {kupac.prezime}</span>
+                        )}
+                        onChange={(selected) => {
+                            setOdabraniKupac(selected.length > 0 ? selected[0] : null);
+                        }}
+                    />
+                    <p>{odabraniKupac ? `${odabraniKupac.prezime} ${odabraniKupac.ime}` : "Nije odabran kupac"}</p>
                 </Form.Group>
 
                 <Row className="akcije">

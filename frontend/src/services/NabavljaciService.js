@@ -36,10 +36,20 @@ async function obrisi(sifra){
     .catch(()=>{return{greska:true, poruka:'Nabavljaća nije moguće obrisati.'}})
 }
 
+async function trazi(uvjet){
+    return await HttpService.get('/Nabavljac/trazi?uvjet=' + uvjet)    
+    .then((odgovor)=>{
+        return odgovor.data;
+        
+    })
+    .catch((e)=>{console.error(e)})
+}
+
 export default{
     get,
     getBySifra,
     promijeni,
     dodaj,
+    trazi,
     obrisi
 }

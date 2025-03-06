@@ -14,6 +14,8 @@ import NabavljaciPromjena from './pages/nabavljaci/NabavljaciPromjena'
 import NarudzbePregled from './pages/narudzbe/NarudzbePregled'
 import NarudzbeDodaj from './pages/narudzbe/NarudzbeDodaj'
 import NarudzbePromjena from './pages/narudzbe/NarudzbePromjena'
+import ProizvodiPregled from './pages/proizvodi/ProizvodiPregled'
+import ProizvodiDodaj from './pages/proizvodi/ProizvodiDodaj'
 
 function App() {
   
@@ -36,6 +38,10 @@ function App() {
           <Route path={RouteNames.NARUDZBE_PREGLED} element ={<NarudzbePregled/>}/>
           <Route path={RouteNames.NARUDZBE_NOVI} element={<NarudzbeDodaj/>}/>
           <Route path={RouteNames.NARUDZBE_PROMJENA} element={<NarudzbePromjena/>}/>
+
+          <Route path={RouteNames.PROIZVODI_PREGLED} element ={<ProizvodiPregled/>}/>
+          <Route path={RouteNames.PROIZVODI_NOVI} element ={<ProizvodiDodaj/>}/>
+          {/* <Route path={RouteNames.PROIZVODI_PROMJENA} element ={<ProizvodiPromjena/>}/> */}
 
         </Routes>
 
