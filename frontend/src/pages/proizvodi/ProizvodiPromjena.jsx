@@ -1,25 +1,39 @@
-import { useState, useEffect, useRef } from "react";
-import { Button, Col, Form, FormGroup, Row } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-import { AsyncTypeahead } from "react-bootstrap-typeahead";
+import { useState, useEffect } from "react";
+import { Button, Row, Col, Form } from "react-bootstrap";
+import moment from "moment";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { RouteNames } from "../../constants";
-import NabavljaciService from "../../services/NabavljaciService";
+import { AsyncTypeahead} from "react-bootstrap-typeahead";
+import { useRef } from "react";
 import ProizvodService from "../../services/ProizvodService";
+import NabavljaciService from "../../services/NabavljaciService";
 
-export default function ProizvodiDodaj() {
+export default function ProizvodiPromjena() {
+    const [proizvod, setProizvod] = useState({});
     const navigate = useNavigate();
+    const routeParams = useParams();
     const [nabavljaci, setNabavljaci] = useState([]);
     const [odabraniNabavljac, setOdabraniNabavljac] = useState(null);
     const typeaheadRef = useRef(null);
 
+    async function dohvatiProizvode() {
+        const odgovor = await ProizvodService.getBySifra(routeParams.sifra);
+        if (odgovor.greska) {
+            alert(odgovor.poruka);
+            return;
+        }
+
+        let n = odgovor.poruka;
+        n.datum = moment.utc(n.datum).format('yyyy-MM-DD');
+        setProizvod(n);
+    }
+
     useEffect(() => {
-        
+        dohvatiProizvode();
     }, []);
 
-    
-
-    async function dodaj(proizvod) {
-        const odgovor = await ProizvodService.dodaj(proizvod);
+    async function promjena(proizvod) {
+        const odgovor = await ProizvodService.promjena(routeParams.sifra, proizvod);
         if (odgovor.greska) {
             alert(odgovor.poruka);
             return;
@@ -30,7 +44,7 @@ export default function ProizvodiDodaj() {
     function obradiSubmit(e) {
         e.preventDefault();
         let podaci = new FormData(e.target);
-        dodaj({
+        promjena({
             naziv: podaci.get("naziv"),
             cijena: parseFloat(podaci.get('cijena')),
             nabavljacSifra: odabraniNabavljac?.sifra || 0
@@ -38,23 +52,24 @@ export default function ProizvodiDodaj() {
     }
 
     async function traziNabavljaca(uvjet) {
-        const odgovor = await NabavljaciService.trazi(uvjet);
-        setNabavljaci(odgovor);  // Provjeri da nije undefined
-    }
+           const odgovor = await NabavljaciService.trazi(uvjet)
+           setNabavljaci(odgovor)
+        }
 
     return (
         <>
-            <h2>Dodavanje proizvoda</h2>
+            <h3>Promjena proizvod</h3>
             <Form onSubmit={obradiSubmit}>
+
                 <Form.Group controlId="naziv">
                     <Form.Label>Naziv</Form.Label>
-                    <Form.Control type="text" name="naziv" required />
+                    <Form.Control type="text" name="naziv" defaultValue={proizvod.naziv} required />
                 </Form.Group>
 
                 <Form.Group controlId="cijena">
                     <Form.Label>Cijena</Form.Label>
                     <Form.Control type="number" step={0.01} name="cijena"  />
-                </Form.Group>                
+                </Form.Group>               
 
                 <Form.Group controlId="nabavljacSifra">
                     <Form.Label>Traži nabavljača</Form.Label>
@@ -79,14 +94,15 @@ export default function ProizvodiDodaj() {
                 </Form.Group>
 
                 <Row className="akcije">
-                    <Col xs={6}>
+                    <Col xs={6} sm={12} md={3} lg={6} xl={6} xxl={6}>
                         <Link to={RouteNames.PROIZVODI_PREGLED} className="btn btn-danger siroko">Odustani</Link>
                     </Col>
-                    <Col xs={6}>
-                        <Button variant="success" type="submit" className="siroko">Dodaj proizvod</Button>
+                    <Col xs={6} sm={12} md={9} lg={6} xl={6} xxl={6}>
+                        <Button variant="success" type="submit" className="siroko">Promjeni proizvod</Button>
                     </Col>
                 </Row>
             </Form>
         </>
     );
 }
+

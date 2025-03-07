@@ -81,6 +81,15 @@ async function traziKupca(uvjet) {
     setKupci(odgovor.poruka);
 }
 
+async function getStavke_Narudzbe(sifra){
+    return await HttpService.get('/Narudzba/Stavke_Narudzbe/'+ sifra)
+    .then((odgovor)=>{
+        //console.table(odgovor.data);
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch((e)=>{return {greska: true, poruka: 'Problem kod dohvaćanja stavki narudžbe'}})
+}
+
 
 
 export default{
@@ -89,5 +98,7 @@ export default{
     dodaj,
     getBySifra,
     promjena,
-    traziKupca
+    traziKupca,
+
+    getStavke_Narudzbe
 }
