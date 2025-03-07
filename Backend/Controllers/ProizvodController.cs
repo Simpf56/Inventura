@@ -61,9 +61,17 @@ namespace Backend.Controllers
             {
                 return BadRequest(new { poruka = ModelState });
             }
+
+            var nabavljac = _context.Nabavljaci.Find(dto.NabavljacSifra);
+            if (nabavljac == null)
+            {
+                return NotFound(new { poruka = "Nabavljac ne postoji u bazi" });
+            }
+
             try
             {
                 var e = mapper.Map<Proizvod>(dto);
+                e.Nabavljac = nabavljac;
                 _context.Proizvodi.Add(e);
                 _context.SaveChanges();
                 return StatusCode(StatusCodes.Status201Created, _mapper.Map<ProizvodDTORead>(e));
