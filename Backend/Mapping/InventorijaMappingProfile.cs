@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Backend.Models;
 using Backend.Models.DTO;
+using Microsoft.EntityFrameworkCore;
 namespace Backend.Mapping
 {
     public class InventorijaMappingProfile : Profile
