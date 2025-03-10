@@ -64,7 +64,7 @@ async function obrisiAsync(sifra) {
                 <tr>
                     <th>Naziv</th>
                     <th>Cijena</th>
-                    <th>Nabavljača</th>
+                    <th>Nabavljač</th>
                 </tr>
             </thead>
             <tbody>

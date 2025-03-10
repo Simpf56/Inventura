@@ -25,7 +25,12 @@ namespace Backend.Controllers
                 .Include(s => s.Proizvod)
                 .Include(s => s.Narudzba)
                 .ToList();
-                return Ok(_mapper.Map<List<Stavka_NarudzbeDTORead>>(_context.Stavke_Narudzbe.Include(g => g.Proizvod).Include(g => g.Narudzba)));
+
+                if (stavke == null || !stavke.Any())
+                {
+                    return Ok(_mapper.Map<List<Stavka_NarudzbeDTORead>>(_context.Stavke_Narudzbe.Include(g => g.Proizvod).Include(g => g.Narudzba)));
+                }
+                return Ok(_mapper.Map<List<Stavka_NarudzbeDTORead>>(stavke));
             }
             catch (Exception ex)
             {
@@ -81,31 +86,37 @@ namespace Backend.Controllers
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
-        public IActionResult Put(int sifra, Stavka_NarudzbeDTOInsertUpdate dto)
+        public IActionResult Put(int sifra, NarudzbaDTOInsertUpdate dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(new { poruka = ModelState });
             }
+
             try
             {
-                Stavka_Narudzbe? e;
+                Narudzba? e;
                 try
                 {
-                    e = _context.Stavke_Narudzbe.Find(sifra);
+                    e = _context.Narudzbe.Find(sifra);
                 }
                 catch (Exception ex)
                 {
                     return BadRequest(new { poruka = ex.Message });
                 }
+
                 if (e == null)
                 {
-                    return NotFound(new { poruka = "Stavka narudžbe ne postoji u bazi" });
+                    return NotFound(new { poruka = "Narudžba ne postoji u bazi" });
                 }
 
+                // Mapiranje DTO na entitet, postavljanje Kupca putem KupacSifra
                 e = _mapper.Map(dto, e);
 
-                _context.Stavke_Narudzbe.Update(e);
+                // Provjera dolaznog DTO-a
+                Console.WriteLine($"KupacSifra (nakon mapiranja): {e.Kupac?.Sifra}");
+
+                _context.Narudzbe.Update(e);
                 _context.SaveChanges();
 
                 return Ok(new { poruka = "Uspješno promijenjeno" });
@@ -115,6 +126,7 @@ namespace Backend.Controllers
                 return BadRequest(new { poruka = ex.Message });
             }
         }
+
 
         [HttpDelete]
         [Route("{sifra:int}")]

@@ -2,16 +2,17 @@ import { HttpService } from "./HttpService";
 
 
 async function get(){
-    return await HttpService.get('/Stavka_Narudzbe')    
+    return await HttpService.get('/Stavka_Narudzbe ' + sifra)    
     .then((odgovor)=>{
-        // console.log(odgovor.data)
         return odgovor.data;
     })
     .catch((e)=>{console.error(e)})
 }
 
+
+
 async function getBySifra(sifra){
-    return await HttpService.get('/stavke_narudzbe/' + sifra)    
+    return await HttpService.get('/Stavka_Narudzbe/' + sifra)    
     .then((odgovor)=>{
         return {greska: false, poruka: odgovor.data}
     })
@@ -21,15 +22,15 @@ async function getBySifra(sifra){
 }
 
 async function obrisi(sifra){
-    return await HttpService.delete('/stavke_narudzbe/'+sifra)
+    return await HttpService.delete('/Stavka_Narudzbe/'+sifra)
     .then((odgovor)=>{
         return{greska:false, poruka: odgovor.data}
     })
-    .catch(()=>{return{greska:true, poruka:'Stavku narudžbe nije moguće obrisati.'}})
+    .catch(()=>{return{greska:true, poruka:'Stavku nije moguće obrisati.'}})
 }
 
-async function dodaj(Stavka_Narudzbe){
-    return await HttpService.post('/stavke_narudzbe',Stavka_Narudzbe)
+async function dodaj(stavka_narudzbe){
+    return await HttpService.post('/Stavka_Narudzbe',stavka_narudzbe)
     .then((odgovor)=>{
         return{greska: false, poruka: odgovor.data}})
     .catch((e)=>{
@@ -47,18 +48,18 @@ async function dodaj(Stavka_Narudzbe){
 }
 
 async function dohvatiSve() {
-    return await HttpService.get('/stavke_narudzbe')
+    return await HttpService.get('/Stavka_Narudzbe')
         .then((odgovor) => {
             return { greska: false, poruka: odgovor.data };
         })
         .catch((e) => {
-            return { greska: true, poruka: 'Greška prilikom dohvaćanja stavke' };
+            return { greska: true, poruka: 'Greška prilikom dohvaćanja stavke narudžbe' };
         });
 }
 
 
-async function promijeni(sifra,Stavka_Narudzbe){
-    return HttpService.put('/stavke_narudzbe/'+sifra, Stavka_Narudzbe)
+async function promjena(sifra,stavka_narudzbe){
+    return HttpService.put('/Stavka_Narudzbe/'+sifra, stavka_narudzbe)
     .then((odgovor)=>{
         return{greska:false, poruka: odgovor.data}
     })
@@ -77,21 +78,13 @@ async function promijeni(sifra,Stavka_Narudzbe){
             
 }
 
-async function traziStavku(uvjet){
-    return await HttpService.get('/stavke_narudzbe/trazi/'+uvjet)
-    .then((odgovor)=>{        
-        return {greska: false, poruka: odgovor.data}
-    })
-    .catch((e)=>{return {greska: true, poruka: 'Problem kod traženja stavke.'}})
-}
 
 
 export default{
     get,
     getBySifra,
-    promijeni,
+    promjena,
     dodaj,
     obrisi,
-    traziStavku,
     dohvatiSve
 }

@@ -2,7 +2,7 @@
 {
     public record NarudzbaDTORead(
     int Sifra,
-    decimal? Ukupan_iznos,
+    int? Ukupan_iznos,
     DateOnly? Datum, 
     string? Status, 
     string? KupacPrezime

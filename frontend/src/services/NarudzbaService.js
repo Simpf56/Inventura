@@ -72,15 +72,6 @@ async function getBySifra(sifra){
     })
 }
 
-async function traziKupca(uvjet) {
-    const odgovor = await NarudzbaService.traziKupca(uvjet);
-    if (odgovor.greska) {
-        alert(odgovor.poruka);
-        return;
-    }
-    setKupci(odgovor.poruka);
-}
-
 async function getStavke_Narudzbe(sifra){
     return await HttpService.get('/Narudzba/Stavke_Narudzbe/'+ sifra)
     .then((odgovor)=>{
@@ -88,6 +79,26 @@ async function getStavke_Narudzbe(sifra){
         return {greska: false, poruka: odgovor.data}
     })
     .catch((e)=>{return {greska: true, poruka: 'Problem kod dohvaćanja stavki narudžbe'}})
+}
+
+async function obrisiStavke_Narudzbe(narudzba,stavka_narudzbe) {
+    return await HttpService.delete('/Narudzba/' + narudzba + '/obrisi/'+stavka_narudzbe)
+    .then((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch((e)=>{
+                return {greska: true, poruka: 'Stavka se ne može obrisati iz narudžbe'}
+    })
+}
+
+async function dodajStavke_Narudzbe(narudzba,stavka_narudzbe) {
+    return await HttpService.post('/Narudzba/' + narudzba + '/dodaj/'+stavka_narudzbe)
+    .then((odgovor)=>{
+        return {greska: false, poruka: odgovor.data}
+    })
+    .catch((e)=>{
+                return {greska: true, poruka: 'Stavka se ne može dodati na narudžbu'}
+    })
 }
 
 
@@ -98,7 +109,8 @@ export default{
     dodaj,
     getBySifra,
     promjena,
-    traziKupca,
 
-    getStavke_Narudzbe
+    getStavke_Narudzbe,
+    dodajStavke_Narudzbe,
+    obrisiStavke_Narudzbe
 }

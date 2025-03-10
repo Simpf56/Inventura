@@ -99,7 +99,7 @@ export default function ProizvodiPromjena() {
                     </Col>
                     <Col xs={6} sm={12} md={9} lg={6} xl={6} xxl={6}>
                         <Button variant="success" type="submit" className="siroko">Promjeni proizvod</Button>
-                    </Col>
+                    </Col >                    
                 </Row>
             </Form>
         </>
