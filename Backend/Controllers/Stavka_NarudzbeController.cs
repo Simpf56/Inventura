@@ -4,6 +4,7 @@ using Backend.Models;
 using Backend.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Backend.Controllers
 {
@@ -13,6 +14,9 @@ namespace Backend.Controllers
     {
 
         [HttpGet]
+        [SwaggerOperation(Summary = "Ruta koja dohvaća sve stavke narudžbe", Description = "Vraća listu svih stavki narudžbe.")]
+        [SwaggerResponse(200, "Uspješno dohvaćene stavke narudžbi", typeof(List<Stavka_NarudzbeDTORead>))]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public ActionResult<List<Stavka_NarudzbeDTORead>> Get()
         {
             if (!ModelState.IsValid)
@@ -40,6 +44,10 @@ namespace Backend.Controllers
 
         [HttpGet]
         [Route("{sifra:int}")]
+        [SwaggerOperation(Summary = "Dohvati stavku narudžbe po šifri", Description = "Vraća stavku narudžbe prema zadanoj šifri.")]
+        [SwaggerResponse(200, "Uspješno dohvaćena stavka narudžbe", typeof(Stavka_NarudzbeDTORead))]
+        [SwaggerResponse(404, "Stavka narudžbe nije pronađena")]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public ActionResult<Stavka_NarudzbeDTORead> GetBySifra(int sifra)
         {
             if (!ModelState.IsValid)
@@ -64,6 +72,9 @@ namespace Backend.Controllers
         }
 
         [HttpPost]
+        [SwaggerOperation(Summary = "Dodaj novu stavku narudžbe", Description = "Dodaje novu stavku narudžbe u bazu podataka.")]
+        [SwaggerResponse(201, "Uspješno dodana stavka narudžbe", typeof(Stavka_NarudzbeDTORead))]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public IActionResult Post(Stavka_NarudzbeDTOInsertUpdate dto)
         {
             if (!ModelState.IsValid)
@@ -86,6 +97,10 @@ namespace Backend.Controllers
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
+        [SwaggerOperation(Summary = "Ažuriraj stavku narudžbe", Description = "Ažurira podatke postojeće stavke narudžbe prema zadanoj šifri.")]
+        [SwaggerResponse(200, "Uspješno ažurirana stavka narudžbe")]
+        [SwaggerResponse(404, "Stavka narudžbe nije pronađena")]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public IActionResult Put(int sifra, NarudzbaDTOInsertUpdate dto)
         {
             if (!ModelState.IsValid)
@@ -130,6 +145,10 @@ namespace Backend.Controllers
 
         [HttpDelete]
         [Route("{sifra:int}")]
+        [SwaggerOperation(Summary = "Obriši stavku narudžbe", Description = "Briše stavku narudžbe prema zadanoj šifri.")]
+        [SwaggerResponse(200, "Uspješno obrisana stavka narudžbe")]
+        [SwaggerResponse(404, "Stavka narudžbe nije pronađena")]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public IActionResult Delete(int sifra)
         {
             if (!ModelState.IsValid)

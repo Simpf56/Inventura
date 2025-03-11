@@ -4,15 +4,20 @@ using Backend.Models;
 using Backend.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    
     public class ProizvodController(InventorijaContext context, IMapper mapper) : InventorijaController(context, mapper)
     {
 
         [HttpGet]
+        [SwaggerOperation(Summary = "Ruta koja dohvaća sve proizvode", Description = "Vraća listu svih proizvoda.")]
+        [SwaggerResponse(200, "Uspješno dohvaćeni proizvodi", typeof(List<ProizvodDTORead>))]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public ActionResult<List<ProizvodDTORead>> Get()
         {
             if (!ModelState.IsValid)
@@ -31,6 +36,10 @@ namespace Backend.Controllers
 
         [HttpGet]
         [Route("{sifra:int}")]
+        [SwaggerOperation(Summary = "Dohvati proizvod po šifri", Description = "Vraća proizvod prema zadanoj šifri.")]
+        [SwaggerResponse(200, "Uspješno dohvaćen proizvod", typeof(ProizvodDTORead))]
+        [SwaggerResponse(404, "Proizvod nije pronađen")]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public ActionResult<ProizvodDTORead> GetBySifra(int sifra)
         {
             if (!ModelState.IsValid)
@@ -55,6 +64,9 @@ namespace Backend.Controllers
         }
 
         [HttpPost]
+        [SwaggerOperation(Summary = "Dodaj novi proizvod", Description = "Dodaje novi proizvod u bazu podataka.")]
+        [SwaggerResponse(201, "Uspješno dodan proizvod", typeof(ProizvodDTORead))]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public IActionResult Post(ProizvodDTOInsertUpdate dto)
         {
             if (!ModelState.IsValid)
@@ -85,6 +97,10 @@ namespace Backend.Controllers
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
+        [SwaggerOperation(Summary = "Ažuriraj proizvod", Description = "Ažurira podatke postojećeg proizvoda prema zadanoj šifri.")]
+        [SwaggerResponse(200, "Uspješno ažuriran proizvod")]
+        [SwaggerResponse(404, "Proizvod nije pronađen")]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public IActionResult Put(int sifra, ProizvodDTOInsertUpdate dto)
         {
             if (!ModelState.IsValid)
@@ -122,6 +138,10 @@ namespace Backend.Controllers
 
         [HttpDelete]
         [Route("{sifra:int}")]
+        [SwaggerOperation(Summary = "Obriši proizvod", Description = "Briše proizvod prema zadanoj šifri.")]
+        [SwaggerResponse(200, "Uspješno obrisan proizvod")]
+        [SwaggerResponse(404, "Proizvod nije pronađen")]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public IActionResult Delete(int sifra)
         {
             if (!ModelState.IsValid)

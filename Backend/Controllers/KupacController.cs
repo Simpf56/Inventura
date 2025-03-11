@@ -3,6 +3,7 @@ using Backend.Data;
 using Backend.Models;
 using Backend.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Backend.Controllers
 {
@@ -12,7 +13,10 @@ namespace Backend.Controllers
     {
 
         [HttpGet]
-        public ActionResult<List<KupacDTORead>> Get()
+        [SwaggerOperation(Summary = "Ruta koja dohvaća sve kupce", Description = "Vraća listu svih kupaca.")]
+        [SwaggerResponse(200, "Uspješno dohvaćeni kupci", typeof(List<KupacDTORead>))]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
+        public ActionResult<List<KupacDTORead>> Get()        
         {
             if (!ModelState.IsValid)
             {
@@ -31,6 +35,10 @@ namespace Backend.Controllers
 
         [HttpGet]
         [Route("{sifra:int}")]
+        [SwaggerOperation(Summary = "Dohvati kupca po šifri", Description = "Vraća kupca prema zadanoj šifri.")]
+        [SwaggerResponse(200, "Uspješno dohvaćen kupac", typeof(KupacDTORead))]
+        [SwaggerResponse(404, "Kupac nije pronađen")]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public ActionResult<KupacDTORead> GetBySifra(int sifra)
         {
             if (!ModelState.IsValid)
@@ -55,6 +63,9 @@ namespace Backend.Controllers
         }
 
         [HttpPost]
+        [SwaggerOperation(Summary = "Dodaj novog kupca", Description = "Dodaje novog kupca u bazu podataka.")]
+        [SwaggerResponse(201, "Uspješno dodan kupac", typeof(KupacDTORead))]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public IActionResult Post(KupacDTOInsertUpdate dto)
         {
             if (!ModelState.IsValid)
@@ -77,6 +88,10 @@ namespace Backend.Controllers
         [HttpPut]
         [Route("{sifra:int}")]
         [Produces("application/json")]
+        [SwaggerOperation(Summary = "Ažuriraj kupca", Description = "Ažurira podatke postojećeg kupca prema zadanoj šifri.")]
+        [SwaggerResponse(200, "Uspješno ažuriran kupac")]
+        [SwaggerResponse(404, "Kupac nije pronađen")]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public IActionResult Put(int sifra, KupacDTOInsertUpdate dto)
         {
             if (!ModelState.IsValid)
@@ -115,6 +130,10 @@ namespace Backend.Controllers
 
         [HttpDelete]
         [Route("{sifra:int}")]
+        [SwaggerOperation(Summary = "Obriši kupca", Description = "Briše kupca prema zadanoj šifri.")]
+        [SwaggerResponse(200, "Uspješno obrisan kupac")]
+        [SwaggerResponse(404, "Kupac nije pronađen")]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public IActionResult Delete(int sifra)
         {
             if (!ModelState.IsValid)
@@ -149,6 +168,9 @@ namespace Backend.Controllers
 
         [HttpGet]
         [Route("trazi")]
+        [SwaggerOperation(Summary = "Traži kupca", Description = "Pretražuje kupce prema upisanim slovima.")]
+        [SwaggerResponse(200, "Uspješno dohvaćen kupac", typeof(List<KupacDTORead>))]
+        [SwaggerResponse(400, "Neispravan zahtjev")]
         public ActionResult<List<KupacDTORead>> Trazi(string uvjet)
         {
             if (!ModelState.IsValid)

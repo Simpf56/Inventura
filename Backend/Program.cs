@@ -1,7 +1,8 @@
-using Backend.Data;
+﻿using Backend.Data;
 using Backend.Mapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -26,6 +27,13 @@ builder.Services.AddCors(o => {
     {
     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
+});
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Inventorija API", Version = "v1" });
+    c.EnableAnnotations(); // Omogućava `[SwaggerOperation]`
 });
 
 builder.Services.AddAutoMapper(typeof(InventorijaMappingProfile));
