@@ -1,9 +1,10 @@
 import { HttpService } from "./HttpService";
 
 
-async function get(){
-    return await HttpService.get('/Stavka_Narudzbe ' + sifra)    
+async function get(sifra){
+    return await HttpService.get('/Stavka_Narudzbe/' + sifra)    
     .then((odgovor)=>{
+        console.log(odgovor)
         return odgovor.data;
     })
     .catch((e)=>{console.error(e)})

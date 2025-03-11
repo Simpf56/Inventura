@@ -6,7 +6,7 @@ import { RouteNames } from "../../constants";
 import NarudzbaService from "../../services/NarudzbaService";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import KupacService from "../../services/KupacService";
-import Stavka_narudzbeService from "../../services/Stavka_narudzbeService";
+import Stavka_narudzbeService from "../../services/Stavka_NarudzbeService";
 
 export default function NarudzbePromjena() {
     const [narudzba, setNarudzba] = useState({});
@@ -29,9 +29,9 @@ export default function NarudzbePromjena() {
     }
 
     async function dohvatiStavke_Narudzbe(){
-        await Stavka_NarudzbeService.get()
+        await NarudzbaService.getStavke_Narudzbe(routeParams.sifra)
         .then((odgovor)=>{
-            setStavke_Narudzbe(odgovor);
+            setStavke_Narudzbe(odgovor.poruka);
         })
         .catch((e)=>{console.log(e)});
     }
@@ -72,7 +72,7 @@ export default function NarudzbePromjena() {
             alert(odgovor.poruka)
             return
         }
-        dohvatiStavke_narudzbe();
+        dohvatiStavke_Narudzbe();
     }
 
     function obrisi(sifra){

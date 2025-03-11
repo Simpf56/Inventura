@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useNavigate } from 'react-router-dom';
-import { RouteNames } from '../constants';
+import { BACKEND_URL, RouteNames } from '../constants';
 
 
 export default function NavBarInventorija(){
@@ -34,7 +34,7 @@ export default function NavBarInventorija(){
                         onClick={()=>navigate(RouteNames.PROIZVODI_PREGLED)}                    
                     >Proizvodi</NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Link href='https://peki123-001-site1.ntempurl.com/swagger/' target='_blank'>Swagger</Nav.Link>
+                    <Nav.Link href={ BACKEND_URL + '/swagger/'} target='_blank'>Swagger</Nav.Link>
                 </Nav>
                 </Navbar.Collapse>
         </Container>

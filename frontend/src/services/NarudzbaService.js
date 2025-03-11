@@ -73,7 +73,7 @@ async function getBySifra(sifra){
 }
 
 async function getStavke_Narudzbe(sifra){
-    return await HttpService.get('/Narudzba/Stavke_Narudzbe/'+ sifra)
+    return await HttpService.get('/Narudzba/'+sifra+'/stavke')
     .then((odgovor)=>{
         //console.table(odgovor.data);
         return {greska: false, poruka: odgovor.data}

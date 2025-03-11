@@ -24,4 +24,4 @@ export const RouteNames={
     STAVKE_NARUDZBE_PROMJENA: '/stavke_narudzbe/:sifra',
 }
 
-export const BACKEND_URL = 'https://localhost:7254/api/v1';
+export const BACKEND_URL = 'https://localhost:7254';
