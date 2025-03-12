@@ -131,9 +131,9 @@ export default function NarudzbePromjena() {
                 </Row>
                     </Col>
                     <Col md={6}>
-                        <Table striped bordered hover responsive>
+                        <Table hover responsive className="granica" >
                             <thead>
-                                <tr>
+                                <tr className="table-row">
                                     <th>Količina</th>
                                     <th>Cijena</th>
                                     <th>Naziv Proizvoda</th>
@@ -149,9 +149,18 @@ export default function NarudzbePromjena() {
                                         <td>{e.proizvodNaziv}</td>
                                         <td>{e.narudzbaNaziv}</td>                        
                                         <td>
-                                            <Button onClick={()=>navigate(`/stavke_narudzbe/${e.sifra}`)}>Promjena</Button>
+                                            <Button variant="success" onClick={()=>navigate(`/stavke_narudzbe/${e.sifra}`)}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                                                <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"></path>
+                                                <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"></path>
+                                                </svg> 
+                                            </Button>
                                             &nbsp;&nbsp;&nbsp;
-                                            <Button variant="danger" onClick={()=>obrisi (e.sifra)}>Obriši</Button>
+                                            <Button class= "btn btn-outline-danger" variant="danger" type="button" onClick={() => obrisi(e.sifra)}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
+                                                <path d="M2.037 3.225A.7.7 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2a.7.7 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671zm9.89-.69C10.966 2.214 9.578 2 8 2c-1.58 0-2.968.215-3.926.534-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466-.18-.14-.498-.307-.975-.466z"></path>
+                                                </svg> 
+                                            </Button>
                                         </td>
                                     </tr>
                                 ))}

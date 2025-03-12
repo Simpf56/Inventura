@@ -19,10 +19,10 @@ import ProizvodiDodaj from './pages/proizvodi/ProizvodiDodaj'
 import ProizvodiPromjena from './pages/proizvodi/ProizvodiPromjena'
 
 function App() {
-  
 
   return (
     <>
+      <div className='pozadina'>
       <Container>
         <NavBarInventorija/>
 
@@ -49,7 +49,8 @@ function App() {
         <hr/>
         &copy; Antonijo Šimpf 2025
       </Container>
-
+      </div>
+    
     </>
   )
 }
