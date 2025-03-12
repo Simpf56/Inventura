@@ -7,6 +7,7 @@ import NarudzbaService from "../../services/NarudzbaService";
 import { AsyncTypeahead } from "react-bootstrap-typeahead";
 import KupacService from "../../services/KupacService";
 import Stavka_narudzbeService from "../../services/Stavka_NarudzbeService";
+import { NumericFormat } from "react-number-format";
 
 export default function NarudzbePromjena() {
     const [narudzba, setNarudzba] = useState({});
@@ -131,7 +132,7 @@ export default function NarudzbePromjena() {
                 </Row>
                     </Col>
                     <Col md={6}>
-                        <Table hover responsive className="granica" >
+                        <Table hover responsive bordered className="granica" >
                             <thead>
                                 <tr className="table-row">
                                     <th>Količina</th>
@@ -145,7 +146,16 @@ export default function NarudzbePromjena() {
                                 {stavke_narudzbe && stavke_narudzbe.map((e, index) => (
                                     <tr key={index}>
                                         <td>{e.kolicina}</td>
-                                        <td>{e.cijena}</td>
+                                        <td>{e.cijena==null ? 'Nije definirano' : 
+                                                                     <NumericFormat 
+                                                                     value={e.cijena}
+                                                                     displayType={'text'}
+                                                                     thousandSeparator='.'
+                                                                     decimalSeparator=','
+                                                                     prefix={'€'}
+                                                                     decimalScale={2}
+                                                                     fixedDecimalScale
+                                                                     />}</td>
                                         <td>{e.proizvodNaziv}</td>
                                         <td>{e.narudzbaNaziv}</td>                        
                                         <td>

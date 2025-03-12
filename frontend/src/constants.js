@@ -24,4 +24,4 @@ export const RouteNames={
     STAVKE_NARUDZBE_PROMJENA: '/stavke_narudzbe/:sifra',
 }
 
-export const BACKEND_URL = 'https://localhost:7254';
+export const BACKEND_URL = 'https://peki123-001-site1.ntempurl.com';

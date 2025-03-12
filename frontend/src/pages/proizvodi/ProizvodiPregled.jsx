@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { RouteNames } from "../../constants";
 import { GrValidate } from "react-icons/gr";
 import ProizvodService from "../../services/ProizvodService";
+import { NumericFormat } from "react-number-format";
 
 
 
@@ -75,7 +76,16 @@ async function obrisiAsync(sifra) {
                             {e.naziv}                            
                         </td>
                         <td>
-                            {e.cijena}
+                            {e.cijena==null ? 'Nije definirano' : 
+                             <NumericFormat 
+                             value={e.cijena}
+                             displayType={'text'}
+                             thousandSeparator='.'
+                             decimalSeparator=','
+                             prefix={'€'}
+                             decimalScale={2}
+                             fixedDecimalScale
+                             />}
                         </td>
                         <td>
                             {e.nabavljacNaziv}

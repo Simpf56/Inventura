@@ -68,7 +68,7 @@ export default function ProizvodiPromjena() {
 
                 <Form.Group controlId="cijena">
                     <Form.Label>Cijena</Form.Label>
-                    <Form.Control type="number" step={0.01} name="cijena"  />
+                    <Form.Control type="number" step={0.01} name="cijena" defaultValue={proizvod.cijena} required  />
                 </Form.Group>               
 
                 <Form.Group controlId="nabavljacSifra">
