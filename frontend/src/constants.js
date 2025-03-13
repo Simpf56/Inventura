@@ -21,7 +21,7 @@ export const RouteNames={
 
     STAVKE_NARUDZBE_PREGLED: '/stavke_narudzbe',
     STAVKE_NARUDZBE_NOVI: '/stavke_narudzbe/dodaj',
-    STAVKE_NARUDZBE_PROMJENA: '/stavke_narudzbe/:sifra',
+    STAVKE_NARUDZBE_PROMJENA: '/narudzbe/:narudzbaSifra/stavke_narudzbe/:stavkaSifra'
 }
 
-export const BACKEND_URL = 'https://peki123-001-site1.ntempurl.com';
+export const BACKEND_URL = 'https://localhost:7254';
